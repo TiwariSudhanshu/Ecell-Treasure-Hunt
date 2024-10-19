@@ -2,8 +2,9 @@
 import { Route,  Routes } from "react-router-dom"
 import Leaderboard from './components/Leaderboard'
 import Invalidloc from './components/InvalidLocn'
-import TeamEntry from "./teamEntry";
-import TeamDashboard from "./teamDashboard";
+import TeamDashboard from "../pages/teamDashboard";
+import TeamEntry from "../pages/teamEntry";
+import Login from "../pages/Login";
 
 function App() {
 
@@ -14,6 +15,8 @@ function App() {
       <Route path='/invalidlocation' element={<Invalidloc/>}/>
       <Route path="/" element={<TeamEntry />} />
       <Route path="/team/:teamId" element={<TeamDashboard />} />
+      <Route path="/login" element={<Login />} />
+      
       </Routes>
     </>
   )

@@ -1,6 +1,6 @@
 // Layout.js
 import React from 'react';
-import './layout.css'; // External CSS for layout
+import './Layout.css'; // External CSS for layout
 
 const Layout = ({ children }) => {
   return (

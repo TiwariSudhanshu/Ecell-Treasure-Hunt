@@ -2,7 +2,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from './Layout'; // Reuse the layout component
-import './teamDashboard.css'; // Import the new CSS file for dashboard styling
+import './TeamDashboard.css'; // Import the new CSS file for dashboard styling
 
 const TeamDashboard = () => {
   const { teamId } = useParams();

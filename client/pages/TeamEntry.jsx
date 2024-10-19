@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout'; // Import the layout component
-import './teamEntry.css'; // Import the updated styles
+import './TeamEntry.css'; // Import the updated styles
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState('');
