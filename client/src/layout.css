@@ -1,0 +1,32 @@
+/* layout.css */
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #1a1a1a; /* Dark background for the whole page */
+    color: #f4f4f4;
+}
+
+.header {
+    padding: 20px;
+    text-align: center;
+    background-color: #333;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+}

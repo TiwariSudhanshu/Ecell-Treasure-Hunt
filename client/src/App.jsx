@@ -1,10 +1,14 @@
-import { Route,  Routes } from "react-router-dom"
+import { Route,  Routes } from "react-router-dom";
+import TeamEntry from "./teamEntry";;
+import TeamDashboard from "./teamDashboard";
 function App() {
 
   return (
     <>
       <Routes>
-      <Route path='/' element={<h1>Hey</h1>}/>
+    
+      <Route path="/" element={<TeamEntry />} />
+      <Route path="/team/:teamId" element={<TeamDashboard />} />
       </Routes>
     </>
   )
