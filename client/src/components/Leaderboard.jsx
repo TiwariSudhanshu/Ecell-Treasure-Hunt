@@ -64,7 +64,7 @@ const TreasureHunt = () => {
           className={`px-4 py-2 mr-2 font-semibold rounded ${
             selectedView === "leaderboard"
               ? "bg-blue-800 text-white"
-              : "bg-gray-200"
+              : "bg-gray-200 text-black"
           }`}
           onClick={() => setSelectedView("leaderboard")}
         >
@@ -74,7 +74,7 @@ const TreasureHunt = () => {
           className={`px-4 py-2 font-semibold rounded ${
             selectedView === "teamInfo"
               ? "bg-blue-800 text-white"
-              : "bg-gray-200"
+              : "bg-gray-200 text-black"
           }`}
           onClick={() => setSelectedView("teamInfo")}
         >
@@ -85,7 +85,7 @@ const TreasureHunt = () => {
       {selectedView === "leaderboard" && (
         <div>
           <h2 className="text-2xl font-bold mb-2 text-white">Leaderboard</h2>
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white text-black">
             <thead>
               <tr>
                 <th className="py-2 px-4 border-b border-blue-400 text-left">
@@ -122,7 +122,7 @@ const TreasureHunt = () => {
         <div>
           <h2 className="text-2xl font-bold mb-2 text-white">Team Info</h2>
           <select
-            className="block w-full p-2 mb-4 border border-gray-300 rounded"
+            className="block w-full p-2 mb-4 border  text-black border-gray-300 rounded"
             onChange={(e) => setSelectedTeam(e.target.value)}
           >
             <option value="">Select a Team</option>
@@ -133,7 +133,7 @@ const TreasureHunt = () => {
             ))}
           </select>
           {selectedTeam && (
-            <table className="min-w-full bg-white">
+            <table className="min-w-full  text-black bg-white">
               <thead>
                 <tr>
                   <th className="py-2 px-4 border-b  border-blue-400 text-left">
