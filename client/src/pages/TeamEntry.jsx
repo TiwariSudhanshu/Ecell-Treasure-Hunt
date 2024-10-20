@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import TeamDashboard from "./TeamDashboard";
+import Loader from "../components/Loader";
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");
@@ -87,7 +88,9 @@ const TeamEntry = () => {
           </div>
         </Layout>
       ) : (
-        <TeamDashboard />
+        <>
+          <TeamDashboard />
+        </>
       )}
       <ToastContainer />
     </>
