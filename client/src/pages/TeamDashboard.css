@@ -8,8 +8,9 @@ body {
 }
 
 .dashboard-container {
-    background-color: #2c2c2c;
+    /* background-color: #0a0531; */
     border-radius: 10px;
+    border: 1px solid white;
     padding: 40px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     max-width: 600px;
@@ -35,7 +36,8 @@ p {
 }
 
 .clue-box {
-    background-color: #333;
+    /* background-color: #040023; */
+    border: 0.01em !important;
     padding: 20px;
     border-radius: 5px;
     margin-top: 30px;
@@ -51,6 +53,7 @@ p {
 
 .start-btn {
     margin-top: 40px;
+    width: 100%;
     padding: 15px 30px;
     background-color: #007bff;
     color: white;
@@ -58,6 +61,7 @@ p {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.2rem;
+    transition: all 0.15s ease-in-out;
 }
 
 .start-btn:hover {
