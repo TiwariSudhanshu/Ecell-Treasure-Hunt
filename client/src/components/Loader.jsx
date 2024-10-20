@@ -1,6 +1,6 @@
 import React from "react";
-import { parseLengthAndUnit, cssValue } from "./components/helpers/unitConverter";
-import { createAnimation } from "./components/helpers/animation";
+import { parseLengthAndUnit, cssValue } from "./helpers/unitConverter";
+import { createAnimation } from "./helpers/animation";
 
 const right = createAnimation(
   "RingLoader",
