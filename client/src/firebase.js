@@ -1,26 +1,27 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
+import { getFirestore, initializeFirestore } from "firebase/firestore"; // Use initializeFirestore for settings
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage"
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBXUlebWPIXR5NcAN1vh7R0v-jr6dp9bhI",
-  authDomain: "treasure-hunt-e95c3.firebaseapp.com",
-  projectId: "treasure-hunt-e95c3",
-  storageBucket: "treasure-hunt-e95c3.appspot.com",
-  messagingSenderId: "658453495846",
-  appId: "1:658453495846:web:64c72301bc80a6b6d526e7",
-  measurementId: "G-B0HT1J0Z7E",
-  databaseURL: "https://treasure-hunt-e95c3-default-rtdb.asia-southeast1.firebasedatabase.app/"
+  apiKey: "AIzaSyAzwAeifp0fgsEPsWbOjWytSpcJijYIspU",
+  authDomain: "e-cell-rgpv-treasure-hunt.firebaseapp.com",
+  projectId: "e-cell-rgpv-treasure-hunt",
+  storageBucket: "e-cell-rgpv-treasure-hunt.appspot.com",
+  messagingSenderId: "614688970988",
+  appId: "1:614688970988:web:0151ef76d1ef4f0609adc9",
+  measurementId: "G-S0ZJR6F6ZE",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize services
-const auth = getAuth(app);
-const db = getDatabase(app);
-const storage = getStorage(app);
+// Initialize Firestore with custom settings
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 
-export { auth, db, storage };
+// Initialize other services
+export const auth = getAuth(app);
+export const storage = getStorage(app);
+export { db };
