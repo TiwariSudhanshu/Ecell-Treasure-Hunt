@@ -5,12 +5,14 @@ import Invalidloc from './components/InvalidLocn'
 import TeamDashboard from "../pages/teamDashboard";
 import TeamEntry from "../pages/teamEntry";
 import Login from "../pages/Login";
+import Loader from './components/Loader';
 
 function App() {
 
   return (
     <>
       <Routes>
+      <Route path="/loader" element={<Loader loading={true} size={150} color="blue" imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />} />
       <Route path='/leaderboard' element={<Leaderboard/>}/>
       <Route path='/invalidlocation' element={<Invalidloc/>}/>
       <Route path="/" element={<TeamEntry />} />
