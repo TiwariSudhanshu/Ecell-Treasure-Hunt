@@ -58,9 +58,9 @@ function Loader({
     borderRadius: "50%", // Optional if you want a circular image
   };
 
-  if (!loading) {
-    return null;
-  }
+//   if (!loading) {
+//     return null;
+//   }
 
   return (
     <span style={wrapperStyle} {...additionalProps}>
