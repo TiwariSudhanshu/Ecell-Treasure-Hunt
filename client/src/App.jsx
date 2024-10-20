@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Leaderboard from "./components/Leaderboard";
 import Invalidloc from "./components/InvalidLocn";
-import TeamEntry from "./teamEntry";
-import TeamDashboard from "./teamDashboard";
+import TeamEntry from "./pages/TeamEntry.jsx";
+import TeamDashboard from "./pages/TeamDashboard.jsx";
 import { useState } from "react";
 import Admin from "./pages/Admin/Admin.jsx";
 

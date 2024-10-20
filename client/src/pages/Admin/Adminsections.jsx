@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
-
+import { toast } from "react-toastify";
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
     teamName: "",
     teamLeaderEmail: "",
+    teamLeaderContact: "",
     teamLeaderName: "",
     secondMember: "",
     thirdMember: "",
@@ -30,20 +31,23 @@ export const AddTeamForm = () => {
       const docRef = await addDoc(collection(db, "teams"), {
         teamName: teamData.teamName,
         teamLeaderEmail: teamData.teamLeaderEmail,
+        teamLeaderContact: teamData.teamLeaderContact,
         teamLeaderName: teamData.teamLeaderName,
         secondMember: teamData.secondMember,
         thirdMember: teamData.thirdMember,
         fourthMember: teamData.fourthMember,
         teamId: teamData.teamId,
       });
-
       console.log("Document written with ID: ", docRef.id);
+      toast.success("Successfully Registered");
     } catch (e) {
       console.error("Error adding document: ", e);
+      toast.error("Error in Registering.");
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -72,6 +76,19 @@ export const AddTeamForm = () => {
         value={teamData.teamLeaderEmail}
         onChange={handleChange}
         placeholder="Enter Team Leader Email"
+        className="input-class border p-2 rounded"
+      />
+
+      <label htmlFor="teamLeaderContact" className="font-bold">
+        Team Leader Contact
+      </label>
+      <input
+        type="tel"
+        id="teamLeaderContact"
+        name="teamLeaderContact"
+        value={teamData.teamLeaderContact}
+        onChange={handleChange}
+        placeholder="Enter Team Leader Contact"
         className="input-class border p-2 rounded"
       />
 
@@ -298,7 +315,7 @@ export const Locations = () => {
   return (
     <section className="p-4">
       <h1 className="text-center text-3xl font-bold mb-6">Locations</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 overflow-x-auto w-full sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {locations.map((location) => (
           <div
             key={location.id}
@@ -359,10 +376,12 @@ export const TeamMembers = () => {
     <div className="overflow-x-auto">
       <table className="table-auto w-full text-left border-collapse">
         <thead>
-          <tr className="">
+          <tr>
             <th className="border p-2">Team Name</th>
             <th className="border p-2">Team Leader Name</th>
             <th className="border p-2">Team Leader Email</th>
+            <th className="border p-2">Team Leader Contact</th>{" "}
+            {/* Added Contact */}
             <th className="border p-2">2nd Member</th>
             <th className="border p-2">3rd Member</th>
             <th className="border p-2">4th Member</th>
@@ -374,6 +393,10 @@ export const TeamMembers = () => {
               <td className="border p-2">{team.teamName}</td>
               <td className="border p-2">{team.teamLeaderName}</td>
               <td className="border p-2">{team.teamLeaderEmail}</td>
+              <td className="border p-2">
+                {team.teamLeaderContact || "N/A"}
+              </td>{" "}
+              {/* Added Contact */}
               <td className="border p-2">{team.secondMember || "N/A"}</td>
               <td className="border p-2">{team.thirdMember || "N/A"}</td>
               <td className="border p-2">{team.fourthMember || "N/A"}</td>
