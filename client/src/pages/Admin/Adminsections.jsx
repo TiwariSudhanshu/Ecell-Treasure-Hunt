@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
+// import { db } from "../../firebase";
 import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
+
+
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
     teamName: "",
@@ -12,9 +16,15 @@ export const AddTeamForm = () => {
     thirdMember: "",
     fourthMember: "",
     teamId: "",
+    route: "", // New field for route ID
   });
 
   const [loading, setLoading] = useState(false);
+  const [routes] = useState([ // Sample routes
+    { id: "Route A", locations: ["a01", "a03", "a04"] },
+    { id: "Route B", locations: ["a02", "a03", "a05"] },
+    { id: "Route C", locations: ["a01", "a04", "a05"] },
+  ]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +38,10 @@ export const AddTeamForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Find the selected route to get its locations
+      const selectedRoute = routes.find(route => route.id === teamData.route);
+      const locations = selectedRoute ? selectedRoute.locations : []; // Get the locations
+
       const docRef = await addDoc(collection(db, "teams"), {
         teamName: teamData.teamName,
         teamLeaderEmail: teamData.teamLeaderEmail,
@@ -37,9 +51,22 @@ export const AddTeamForm = () => {
         thirdMember: teamData.thirdMember,
         fourthMember: teamData.fourthMember,
         teamId: teamData.teamId,
+        route: teamData.route, // Save only the selected route ID
+        locations: locations, // Save locations based on the selected route
       });
       console.log("Document written with ID: ", docRef.id);
       toast.success("Successfully Registered");
+      setTeamData({
+        teamName: "",
+        teamLeaderEmail: "",
+        teamLeaderContact: "",
+        teamLeaderName: "",
+        secondMember: "",
+        thirdMember: "",
+        fourthMember: "",
+        teamId: "",
+        route: "", // Reset selected route
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error("Error in Registering.");
@@ -157,6 +184,25 @@ export const AddTeamForm = () => {
         className="input-class border p-2 rounded"
       />
 
+      <label htmlFor="route" className="font-bold ">
+        Select Route
+      </label>
+      <select
+        id="route"
+        name="route"
+        value={teamData.route}
+        onChange={handleChange}
+        style={{ backgroundColor: "#333" }}
+        className="input-class border p-2 rounded"
+      >
+        <option value="">Select a route</option>
+        {routes.map((route) => (
+          <option key={route.id} value={route.id}>
+            {route.id}
+          </option>
+        ))}
+      </select>
+
       <button
         type="submit"
         className="submit-button-class bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
@@ -166,6 +212,9 @@ export const AddTeamForm = () => {
     </form>
   );
 };
+
+
+
 
 export const AddLocationForm = () => {
   const [locationData, setLocationData] = useState({
@@ -341,6 +390,9 @@ export const Locations = () => {
             <h2 className="text-xl font-semibold mb-2">
               {location.locationName}
             </h2>
+            <h4 className="text-xl font-semibold mb-2">
+              {location.locationId}
+            </h4>
 
             {location.imageURL && (
               <img
@@ -386,7 +438,7 @@ export const TeamMembers = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   return (
@@ -395,6 +447,7 @@ export const TeamMembers = () => {
         <thead>
           <tr>
             <th className="border p-2">Team Name</th>
+            <th className="border p-2">Team Id</th>
             <th className="border p-2">Team Leader Name</th>
             <th className="border p-2">Team Leader Email</th>
             <th className="border p-2">Team Leader Contact</th>{" "}
@@ -408,6 +461,7 @@ export const TeamMembers = () => {
           {teams.map((team) => (
             <tr key={team.id} className="border-b">
               <td className="border p-2">{team.teamName}</td>
+              <td className="border p-2">{team.teamId}</td>
               <td className="border p-2">{team.teamLeaderName}</td>
               <td className="border p-2">{team.teamLeaderEmail}</td>
               <td className="border p-2">

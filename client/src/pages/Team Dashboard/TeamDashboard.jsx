@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
-import { useNavigate } from "react-router-dom";
 import "./teamDashboard.css";
 
 const TeamDashboard = () => {
@@ -15,7 +14,7 @@ const TeamDashboard = () => {
     fourthMember: "",
     teamId: "",
     locationVisited: 0,
-    nextClue: "", 
+    nextClue: "",
   });
 
   const navigate = useNavigate();
@@ -50,7 +49,6 @@ const TeamDashboard = () => {
           <p>
             <strong>Team Leader:</strong> {teamData.teamLeaderName}
           </p>
-
           <p>
             <strong>2nd Member:</strong> {teamData.secondMember}
           </p>
@@ -60,7 +58,6 @@ const TeamDashboard = () => {
           <p>
             <strong>4th Member:</strong> {teamData.fourthMember}
           </p>
-
           <p>
             <strong>Locations Visited:</strong> {teamData.locationVisited || 0}
           </p>
@@ -72,9 +69,18 @@ const TeamDashboard = () => {
               "“I speak without a mouth and hear without ears. I have nobody, but I come alive with the wind.”"}
           </p>
         </div>
-        <button className="start-btn" onClick={()=>{
-         navigate('/huntstart')
-        }}>Start Hunt</button>
+        <button
+          className="start-btn"
+          onClick={() => {
+            navigate('/huntstart', {
+              state: {
+                teamData: teamData, // Pass the team data
+              },
+            });
+          }}
+        >
+          Start Hunt
+        </button>
       </div>
     </Layout>
   );
