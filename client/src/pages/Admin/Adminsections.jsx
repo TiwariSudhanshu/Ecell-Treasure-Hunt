@@ -169,6 +169,7 @@ export const AddTeamForm = () => {
 
 export const AddLocationForm = () => {
   const [locationData, setLocationData] = useState({
+    locationId: "",
     locationName: "",
     hint1: "",
     hint2: "",
@@ -188,8 +189,10 @@ export const AddLocationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const docRef = await addDoc(collection(db, "locations"), {
+        locationId: locationData.locationId, // Include locationId in the document
         locationName: locationData.locationName,
         hint1: locationData.hint1,
         hint2: locationData.hint2,
@@ -198,8 +201,10 @@ export const AddLocationForm = () => {
       });
 
       console.log("Document written with ID: ", docRef.id);
+      toast.success("Location successfully added");
     } catch (e) {
       console.error("Error adding document: ", e);
+      toast.error("Error adding location.");
     } finally {
       setLoading(false);
     }
@@ -210,6 +215,19 @@ export const AddLocationForm = () => {
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-[300px] md:w-[800px] mx-auto p-4"
     >
+      <label htmlFor="locationId" className="font-bold">
+        Location ID
+      </label>
+      <input
+        type="text"
+        id="locationId"
+        name="locationId"
+        value={locationData.locationId}
+        onChange={handleChange}
+        placeholder="Enter Location ID"
+        className="input-class border p-2 rounded"
+      />
+
       <label htmlFor="locationName" className="font-bold">
         Location Name
       </label>
@@ -283,8 +301,7 @@ export const AddLocationForm = () => {
       </button>
     </form>
   );
-};
-
+}
 export const Locations = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);

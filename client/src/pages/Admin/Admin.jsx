@@ -30,7 +30,7 @@ const Admin = ({ setIsAdmin, isAdmin }) => {
             placeholder="Enter your passkey"
             type="text"
           />
-          <button type="submit" onClick={SubmitPasskey}>
+          <button className="w-[13vmax]" type="submit" onClick={SubmitPasskey}>
             Submit
           </button>
         </div>
