@@ -1,0 +1,12 @@
+.container {
+    border: .01em solid white;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically centers the content */
+    align-items: center;  
+    width: 60vw;    /* Horizontally centers the content */
+    height: 70vh;            /* Full viewport height */
+    text-align: center;
+    /* background-color: #f8f9fa; Optional: light background color */
+  }

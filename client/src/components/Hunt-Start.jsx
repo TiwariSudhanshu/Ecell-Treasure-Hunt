@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase'; // Ensure Firestore is configured
-import Layout from '../pages/Layout/Layout';
+// import Layout from '../pages/Layout/Layout';
 import Loader from './Loader';
+import Layout from '../pages/Layout/Layout';
+import "./Hunt-Start.css";
 
 function HuntStart() {
   const [clue, setClue] = useState("");
@@ -61,7 +63,7 @@ function HuntStart() {
 
   return (
     <Layout>
-      <div>
+      <div className='container'>
         <h1>Hunt has been started</h1>
         <div>Your clue:</div>
         <h2>{clue ? clue : "No clue available"}</h2>
