@@ -1,45 +1,50 @@
-import * as React from "react";
-
-import { cssValue } from "./helpers/unitConverter";
+import React from "react";
+import { parseLengthAndUnit, cssValue } from "./helpers/unitConverter";
 import { createAnimation } from "./helpers/animation";
 
-const puff = [
-  createAnimation("PuffLoader", "0% {transform: scale(0)} 100% {transform: scale(1.0)}", "puff-1"),
-  createAnimation("PuffLoader", "0% {opacity: 1} 100% {opacity: 0}", "puff-2"),
-];
+const right = createAnimation(
+  "RingLoader",
+  "0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} 100% {transform: rotateX(180deg) rotateY(360deg) rotateZ(360deg)}",
+  "right"
+);
 
-function PuffLoader({
+const left = createAnimation(
+  "RingLoader",
+  "0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)} 100% {transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg)}",
+  "left"
+);
+
+function RingLoader({
   loading = true,
   color = "#000000",
   speedMultiplier = 1,
   cssOverride = {},
   size = 60,
-  ...additionalprops
+  ...additionalProps
 }) {
+  const { value, unit } = parseLengthAndUnit(size);
+
   const wrapper = {
     display: "inherit",
-    position: "relative",
     width: cssValue(size),
     height: cssValue(size),
+    position: "relative",
     ...cssOverride,
   };
 
   const style = (i) => {
     return {
       position: "absolute",
-      height: cssValue(size),
-      width: cssValue(size),
-      border: `thick solid ${color}`,
-      borderRadius: "50%",
-      opacity: "1",
       top: "0",
       left: "0",
-      animationFillMode: "both",
-      animation: `${puff[0]}, ${puff[1]}`,
-      animationDuration: `${2 / speedMultiplier}s`,
-      animationIterationCount: "infinite",
-      animationTimingFunction: "cubic-bezier(0.165, 0.84, 0.44, 1), cubic-bezier(0.3, 0.61, 0.355, 1)",
-      animationDelay: i === 1 ? "-1s" : "0s",
+      width: `${value}${unit}`,
+      height: `${value}${unit}`,
+      border: `${value / 10}${unit} solid ${color}`,
+      opacity: "0.4",
+      borderRadius: "100%",
+      animationFillMode: "forwards",
+      perspective: "800px",
+      animation: `${i === 1 ? right : left} ${2 / speedMultiplier}s 0s infinite linear`,
     };
   };
 
@@ -48,11 +53,11 @@ function PuffLoader({
   }
 
   return (
-    <span style={wrapper} {...additionalprops}>
+    <span style={wrapper} {...additionalProps}>
       <span style={style(1)} />
       <span style={style(2)} />
     </span>
   );
 }
 
-export default PuffLoader;
+export default RingLoader;
