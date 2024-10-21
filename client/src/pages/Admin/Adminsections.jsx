@@ -375,10 +375,11 @@ export const TeamMembers = () => {
   return (
     <div className="overflow-x-auto">
       <table className="table-auto w-full text-left border-collapse">
-        <thead>
+        <thead className="text-amber-400">
           <tr>
             <th className="border p-2">Team Name</th>
             <th className="border p-2">Team Leader Name</th>
+            <th className="border p-2">Team Id</th>
             <th className="border p-2">Team Leader Email</th>
             <th className="border p-2">Team Leader Contact</th>{" "}
             {/* Added Contact */}
@@ -392,6 +393,7 @@ export const TeamMembers = () => {
             <tr key={team.id} className="border-b">
               <td className="border p-2">{team.teamName}</td>
               <td className="border p-2">{team.teamLeaderName}</td>
+              <td className="border p-2">{team.teamId}</td>
               <td className="border p-2">{team.teamLeaderEmail}</td>
               <td className="border p-2">
                 {team.teamLeaderContact || "N/A"}

@@ -9,14 +9,4 @@ export default defineConfig({
     },
   },
   plugins: [react()],
-<<<<<<< HEAD
-})
-
-server: {
-  hmr: {
-    overlay: false
-  }
-}
-=======
 });
->>>>>>> 4640afb49750012256204462b4eabf3cd16a9f6b

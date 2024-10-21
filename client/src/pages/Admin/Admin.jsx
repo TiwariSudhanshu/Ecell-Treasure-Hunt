@@ -30,7 +30,7 @@ const Admin = ({ setIsAdmin, isAdmin }) => {
             placeholder="Enter your passkey"
             type="text"
           />
-          <button type="submit" onClick={SubmitPasskey}>
+          <button type="submit" className="w-fit" onClick={SubmitPasskey}>
             Submit
           </button>
         </div>
