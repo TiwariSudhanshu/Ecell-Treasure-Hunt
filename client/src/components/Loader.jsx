@@ -1,86 +1,58 @@
-import React from "react";
-import { parseLengthAndUnit, cssValue } from "./helpers/unitConverter";
+import * as React from "react";
 
-// CSS keyframes for the rotation animations
-const rightKeyframes = `
-  0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);}
-  100% {transform: rotateX(180deg) rotateY(360deg) rotateZ(360deg);}
-`;
+import { cssValue } from "./helpers/unitConverter";
+import { createAnimation } from "./helpers/animation";
 
-const leftKeyframes = `
-  0% {transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);}
-  100% {transform: rotateX(360deg) rotateY(180deg) rotateZ(360deg);}
-`;
+const puff = [
+  createAnimation("PuffLoader", "0% {transform: scale(0)} 100% {transform: scale(1.0)}", "puff-1"),
+  createAnimation("PuffLoader", "0% {opacity: 1} 100% {opacity: 0}", "puff-2"),
+];
 
-function Loader({
+function PuffLoader({
   loading = true,
   color = "#000000",
   speedMultiplier = 1,
   cssOverride = {},
   size = 60,
-  imageSrc, // Add imageSrc prop
-  ...additionalProps
+  ...additionalprops
 }) {
-  const { value, unit } = parseLengthAndUnit(size);
-
-  const wrapperStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+  const wrapper = {
+    display: "inherit",
     position: "relative",
-    width: cssValue(value, unit),
-    height: cssValue(value, unit),
+    width: cssValue(size),
+    height: cssValue(size),
     ...cssOverride,
   };
 
-  const ringStyle = (i) => ({
-    position: "absolute",
-    top: "45vh",
-    left: "45vw",
-    width: `${value}${unit}`,
-    height: `${value}${unit}`,
-    border: `${value / 10}${unit} solid ${color}`,
-    opacity: "0.4",
-    borderRadius: "100%",
-    animationFillMode: "forwards",
-    perspective: "800px",
-    animation: `${i === 1 ? "rightSpin" : "leftSpin"} ${2 / speedMultiplier}s 0s infinite linear`,
-  });
-
-  const imageStyle = {
-    position: "relative",
-    top: "50vh",
-    left: "50vw",
-    transform: "translate(-50%, -50%)", // Center the image
-    width: "70%", // Adjust size as needed
-    height: "35%",
-    zIndex: 1,
-    borderRadius: "50%", // Optional if you want a circular image
+  const style = (i) => {
+    return {
+      position: "absolute",
+      height: cssValue(size),
+      width: cssValue(size),
+      border: `thick solid ${color}`,
+      borderRadius: "50%",
+      opacity: "1",
+      top: "0",
+      left: "0",
+      animationFillMode: "both",
+      animation: `${puff[0]}, ${puff[1]}`,
+      animationDuration: `${2 / speedMultiplier}s`,
+      animationIterationCount: "infinite",
+      animationTimingFunction: "cubic-bezier(0.165, 0.84, 0.44, 1), cubic-bezier(0.3, 0.61, 0.355, 1)",
+      animationDelay: i === 1 ? "-1s" : "0s",
+    };
   };
 
-//   if (!loading) {
-//     return null;
-//   }
+  if (!loading) {
+    return null;
+  }
 
   return (
-    <span style={wrapperStyle} {...additionalProps}>
-      <style>{`
-        @keyframes rightSpin {
-          ${rightKeyframes}
-        }
-        @keyframes leftSpin {
-          ${leftKeyframes}
-        }
-      `}</style>
-
-      {/* The two rotating rings */}
-      <span style={ringStyle(1)} />
-      <span style={ringStyle(2)} />
-
-      {/* The image in the center of the loader */}
-      {imageSrc && <img src={imageSrc} alt="Loader Image" style={imageStyle} />}
+    <span style={wrapper} {...additionalprops}>
+      <span style={style(1)} />
+      <span style={style(2)} />
     </span>
   );
 }
 
-export default Loader;
+export default PuffLoader;
