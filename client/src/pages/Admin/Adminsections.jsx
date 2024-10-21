@@ -5,7 +5,6 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 
-
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
     teamName: "",
@@ -16,11 +15,11 @@ export const AddTeamForm = () => {
     thirdMember: "",
     fourthMember: "",
     teamId: "",
-    route: "", // New field for route ID
+    route: "", // Field for selected route
   });
 
   const [loading, setLoading] = useState(false);
-  const [routes] = useState([ // Sample routes
+  const [routes] = useState([ // Sample routes with location IDs
     { id: "Route A", locations: ["a01", "a03", "a04"] },
     { id: "Route B", locations: ["a02", "a03", "a05"] },
     { id: "Route C", locations: ["a01", "a04", "a05"] },
@@ -41,6 +40,7 @@ export const AddTeamForm = () => {
       // Find the selected route to get its locations
       const selectedRoute = routes.find(route => route.id === teamData.route);
       const locations = selectedRoute ? selectedRoute.locations : []; // Get the locations
+      const nextLocationId = locations.length > 0 ? locations[0] : null; // Get the first location ID
 
       const docRef = await addDoc(collection(db, "teams"), {
         teamName: teamData.teamName,
@@ -51,11 +51,14 @@ export const AddTeamForm = () => {
         thirdMember: teamData.thirdMember,
         fourthMember: teamData.fourthMember,
         teamId: teamData.teamId,
-        route: teamData.route, // Save only the selected route ID
+        route: teamData.route, // Save selected route ID
         locations: locations, // Save locations based on the selected route
+        nextLocationId: nextLocationId, // Store the first location ID
       });
       console.log("Document written with ID: ", docRef.id);
       toast.success("Successfully Registered");
+
+      // Reset form data
       setTeamData({
         teamName: "",
         teamLeaderEmail: "",
@@ -65,7 +68,7 @@ export const AddTeamForm = () => {
         thirdMember: "",
         fourthMember: "",
         teamId: "",
-        route: "", // Reset selected route
+        route: "", // Reset route selection
       });
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -80,6 +83,7 @@ export const AddTeamForm = () => {
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-[300px] md:w-[800px] mx-auto p-4"
     >
+      {/* Form fields */}
       <label htmlFor="teamName" className="font-bold">
         Team Name
       </label>
@@ -88,17 +92,19 @@ export const AddTeamForm = () => {
         id="teamName"
         name="teamName"
         value={teamData.teamName}
+        required
         onChange={handleChange}
         placeholder="Enter Team Name"
         className="input-class border p-2 rounded"
       />
 
-      <label htmlFor="teamLeaderEmail" className="font-bold">
+<label htmlFor="teamLeaderEmail" className="font-bold">
         Team Leader Email
       </label>
       <input
         type="email"
         id="teamLeaderEmail"
+        required
         name="teamLeaderEmail"
         value={teamData.teamLeaderEmail}
         onChange={handleChange}
@@ -113,6 +119,7 @@ export const AddTeamForm = () => {
         type="tel"
         id="teamLeaderContact"
         name="teamLeaderContact"
+        required
         value={teamData.teamLeaderContact}
         onChange={handleChange}
         placeholder="Enter Team Leader Contact"
@@ -126,6 +133,7 @@ export const AddTeamForm = () => {
         type="text"
         id="teamLeaderName"
         name="teamLeaderName"
+        required
         value={teamData.teamLeaderName}
         onChange={handleChange}
         placeholder="Enter Team Leader Name"
@@ -177,6 +185,7 @@ export const AddTeamForm = () => {
       <input
         type="text"
         id="teamId"
+        required
         name="teamId"
         value={teamData.teamId}
         onChange={handleChange}
@@ -192,6 +201,7 @@ export const AddTeamForm = () => {
         name="route"
         value={teamData.route}
         onChange={handleChange}
+        required
         style={{ backgroundColor: "#333" }}
         className="input-class border p-2 rounded"
       >
@@ -212,9 +222,6 @@ export const AddTeamForm = () => {
     </form>
   );
 };
-
-
-
 
 export const AddLocationForm = () => {
   const [locationData, setLocationData] = useState({

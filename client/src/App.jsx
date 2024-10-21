@@ -7,8 +7,8 @@ import { useState } from "react";
 import Loader from "./components/Loader.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import HuntStart from "./components/Hunt-Start.jsx";
-import LocationPage from "./pages/Location/location.jsx";
-
+import LocationPage from "./pages/Location/Location.jsx";
+import HuntFinish from "./components/Hunt-Finish.jsx";
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -24,6 +24,7 @@ function App() {
       <Route path='/invalidlocation' element={<Invalidloc/>}/>
       <Route path="/" element={<TeamEntry />} />
       <Route path="/huntstart" element={<HuntStart />} />
+      <Route path="/huntfinish" element={<HuntFinish />} />
       <Route path="/team/:teamId" element={<TeamDashboard />} />     
       <Route path="/location/:locationId" element={<LocationPage />} />
       <Route
