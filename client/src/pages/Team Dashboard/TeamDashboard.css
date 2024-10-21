@@ -9,6 +9,7 @@ body {
 
 .dashboard-container {
     /* background-color: #0a0531; */
+    margin: 4rem 4rem;
     border-radius: 10px;
     border: 1px solid white;
     padding: 40px;
@@ -67,3 +68,60 @@ p {
 .start-btn:hover {
     background-color: #0056b3;
 }
+
+@media screen and (max-width: 600px) {
+    .dashboard-container {
+      padding: 10px;
+    }
+  
+    .team-info p {
+      font-size: 14px;
+    }
+  
+    .start-btn {
+      width: 100%;
+      padding: 15px;
+    }
+  
+    .clue-box {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  
+  /* Media Query for Tablets (600px to 900px) */
+  @media screen and (min-width: 600px) and (max-width: 900px) {
+    .dashboard-container {
+      padding: 15px;
+    }
+  
+    .team-info p {
+      font-size: 16px;
+    }
+  
+    .start-btn {
+      padding: 12px 25px;
+    }
+  
+    .clue-box {
+      padding: 12px;
+      font-size: 16px;
+    }
+  }
+  
+  /* Media Query for Desktop (above 900px wide) */
+  @media screen and (min-width: 900px) {
+    .dashboard-container {
+      max-width: 900px;
+    }
+  
+    .team-info p {
+      font-size: 18px;
+    }
+  
+    .clue-box {
+      padding: 20px;
+      font-size: 18px;
+    }
+  }
+

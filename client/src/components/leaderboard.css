@@ -1,0 +1,16 @@
+body{
+    background-color: #040023 !important;
+}
+
+
+.container{
+    background-color: hsl(247, 100%, 7%);
+    border: 0.01em solid beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70vw !important;
+    margin: 50px auto;
+    /* height: 100vh; */
+    overflow: auto;
+}

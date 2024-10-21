@@ -1,6 +1,63 @@
+
+import React, { useState } from "react";
+import "./leaderboard.css"
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+
+// Sample data of teams 
+const teams = [
+  { 
+    name: "Team A", 
+    locationsVisited: 5, 
+    latestLocation: "2024-10-19 00:10:22" 
+  },
+  { 
+    name: "Team B", 
+    locationsVisited: 3, 
+    latestLocation: "2024-10-19 00:09:10" 
+   },
+  { 
+    name: "Team C", 
+    locationsVisited: 4, 
+    latestLocation: "2024-10-19 00:11:15" },
+];
+
+const teamDetails = {
+  "Team A": [
+    { 
+        location: "Admin Block", 
+        timestamp: "2024-10-19 00:08:00" 
+    }, 
+    { 
+        location: "Uit block", 
+        timestamp: "2024-10-19 00:08:00" 
+    }, 
+    { 
+        location: "Canteen", 
+        timestamp: "2024-10-19 00:08:00" 
+    } 
+  ],
+  "Team B": [
+    { 
+        location: "Library", 
+        timestamp: "2024-10-19 00:08:30" 
+    },
+    { 
+        location: "Soit", 
+        timestamp: "2024-10-19 00:08:30" 
+    },
+  ],
+  "Team C": [
+    { location: "Sports Complex", timestamp: "2024-10-19 00:09:42" },
+    { location: "Library", timestamp: "2024-10-19 00:09:42" },
+    { location: "Soit", timestamp: "2024-10-19 00:09:42" },
+  ],
+};
+
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure you have Firebase initialized
+
 
 const TreasureHunt = () => {
   const [selectedView, setSelectedView] = useState("leaderboard");
@@ -84,8 +141,16 @@ const TreasureHunt = () => {
   }, []); // This will run on every component refresh
 
   return (
+
+    
+    <div className="pt-8 pr-8 pl-8 h-screen container">
+      
+      
+
     <div className="pt-8 pr-8 pl-8 h-screen bg-blue-950">
+
       <h1 className="text-3xl font-bold mb-4 text-white">Treasure Hunt Event</h1>
+      <img src="https://www.ecellrgpv.com/assets/img/logo.png" alt="" />
       <div className="flex mb-4">
         <button
           className={`px-4 py-2 mr-2 font-semibold rounded ${

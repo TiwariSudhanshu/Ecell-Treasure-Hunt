@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./Admin"
+
 import {
   AddLocationForm,
   AddTeamForm,
@@ -19,7 +21,7 @@ const Admin = ({ setIsAdmin, isAdmin }) => {
   return (
     <>
       {!isAdmin && (
-        <div className="flex justify-center items-center flex-col gap-4 h-screen">
+        <div className="flex justify-center items-center flex-col gap-4 h-screen admin">
           Enter your Admin Passkey
           <input
             className="!w-[200px]"
