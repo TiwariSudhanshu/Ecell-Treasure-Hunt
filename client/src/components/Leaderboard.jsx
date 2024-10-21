@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./leaderboard.css"
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
@@ -54,7 +54,7 @@ const teamDetails = {
   ],
 };
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure you have Firebase initialized
 
@@ -150,7 +150,7 @@ const TreasureHunt = () => {
     <div className="pt-8 pr-8 pl-8 h-screen bg-blue-950">
 
       <h1 className="text-3xl font-bold mb-4 text-white">Treasure Hunt Event</h1>
-      <img src="https://www.ecellrgpv.com/assets/img/logo.png" alt="" />
+      <img src="" alt="" />
       <div className="flex mb-4">
         <button
           className={`px-4 py-2 mr-2 font-semibold rounded ${
@@ -258,6 +258,7 @@ const TreasureHunt = () => {
       <footer className="text-center pb-3 pt-7 text-white">
         <p> 2024 Treasure Hunt</p>
       </footer>
+    </div>
     </div>
   );
 };
