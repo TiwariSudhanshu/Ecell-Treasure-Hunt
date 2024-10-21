@@ -91,7 +91,7 @@ const LocationPage = () => {
         await updateDoc(teamDocRef, { nextLocationId: newNextLocationId }); // Update the document
       } else {
         setNextClue("No more locations available.");
-        navigate("/huntfinish");
+        navigate("/huntfinish",{ state: { locationId } });
       }
     };
 
