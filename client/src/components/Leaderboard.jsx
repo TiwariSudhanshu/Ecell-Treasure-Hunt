@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./leaderboard.css"
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -53,15 +54,101 @@ const teamDetails = {
   ],
 };
 
+import React, { useState, useEffect } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase"; // Ensure you have Firebase initialized
+
+
 const TreasureHunt = () => {
   const [selectedView, setSelectedView] = useState("leaderboard");
   const [selectedTeam, setSelectedTeam] = useState("");
+  const [teams, setTeams] = useState([]);
+  const [teamDetails, setTeamDetails] = useState({});
+
+  // Fetch team data and leaderboard from Firestore
+  useEffect(() => {
+    const fetchTeamData = async () => {
+      try {
+        // Fetch team data from 'teams' collection
+        const teamCollection = collection(db, "teams");
+        const teamSnapshot = await getDocs(teamCollection);
+
+        // Prepare team data structure
+        const teamData = {};
+        const tempTeams = [];
+
+        // For each team, fetch leaderboard timestamp
+        for (const doc of teamSnapshot.docs) {
+          const team = doc.data();
+          const teamId = team.teamId;
+
+          // Fetch the latest timestamp from the leaderboard collection
+          const leaderboardQuery = query(
+            collection(db, "leaderboard"),
+            where("teamId", "==", teamId)
+          );
+          const leaderboardSnapshot = await getDocs(leaderboardQuery);
+
+          // Extract the latest timestamp (assuming leaderboard data is already sorted or you only get one record)
+          let latestTimestamp = "";
+          if (!leaderboardSnapshot.empty) {
+            const leaderboardData = leaderboardSnapshot.docs[0].data();
+            latestTimestamp = leaderboardData.timestamp.toDate().toString(); // Convert Firestore Timestamp to Date
+          }
+
+          // Build team data with additional details like contact and email
+          teamData[team.teamName] = {
+            teamId: team.teamId,
+            contact: team.contact,
+            email: team.email,
+            locationDetails: [
+              ...(teamData[team.teamName]?.locationDetails || []),
+              {
+                location: team.location,
+                timestamp: latestTimestamp,
+              },
+            ],
+          };
+
+          // Add teams to a temporary array for leaderboard
+          tempTeams.push({
+            teamId,
+            teamName: team.teamName,
+            latestLocation: latestTimestamp || "No recent activity",
+          });
+        }
+
+        // Sort team details and leaderboard by timestamp (oldest first)
+        for (const key in teamData) {
+          teamData[key].locationDetails.sort(
+            (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+          );
+        }
+
+        setTeamDetails(teamData);
+
+        // Sort leaderboard by the latestLocation timestamp (oldest first)
+        const sortedTeams = tempTeams.sort(
+          (a, b) => new Date(a.latestLocation) - new Date(b.latestLocation)
+        );
+        setTeams(sortedTeams);
+      } catch (error) {
+        console.error("Error fetching team or leaderboard data:", error);
+      }
+    };
+
+    fetchTeamData();
+  }, []); // This will run on every component refresh
 
   return (
+
     
     <div className="pt-8 pr-8 pl-8 h-screen container">
       
       
+
+    <div className="pt-8 pr-8 pl-8 h-screen bg-blue-950">
+
       <h1 className="text-3xl font-bold mb-4 text-white">Treasure Hunt Event</h1>
       <img src="https://www.ecellrgpv.com/assets/img/logo.png" alt="" />
       <div className="flex mb-4">
@@ -97,23 +184,17 @@ const TreasureHunt = () => {
                   Team Name
                 </th>
                 <th className="py-2 px-4 border-b border-blue-400 text-left">
-                  Locations Visited
-                </th>
-                <th className="py-2 px-4 border-b border-blue-400  text-left">
-                  Latest Location
+                  Latest Location Timestamp
                 </th>
               </tr>
             </thead>
             <tbody>
               {teams.map((team) => (
-                <tr key={team.name}>
-                  <td className="py-2 px-4 border-b  border-blue-400 text-left">
-                    {team.name}
+                <tr key={team.teamId}>
+                  <td className="py-2 px-4 border-b border-blue-400 text-left">
+                    {team.teamName}
                   </td>
-                  <td className="py-2 px-4 border-b  border-blue-400 text-left">
-                    {team.locationsVisited}
-                  </td>
-                  <td className="py-2 px-4 border-b  border-blue-400 text-left">
+                  <td className="py-2 px-4 border-b border-blue-400 text-left">
                     {team.latestLocation}
                   </td>
                 </tr>
@@ -127,7 +208,7 @@ const TreasureHunt = () => {
         <div>
           <h2 className="text-2xl font-bold mb-2 text-white">Team Info</h2>
           <select
-            className="block w-full p-2 mb-4 border  text-black border-gray-300 rounded"
+            className="block w-full p-2 mb-4 border text-black border-gray-300 rounded"
             onChange={(e) => setSelectedTeam(e.target.value)}
           >
             <option value="">Select a Team</option>
@@ -138,38 +219,46 @@ const TreasureHunt = () => {
             ))}
           </select>
           {selectedTeam && (
-            <table className="min-w-full  text-black bg-white">
-              <thead>
-                <tr>
-                  <th className="py-2 px-4 border-b  border-blue-400 text-left">
-                    Location
-                  </th>
-                  <th className="py-2 px-4 border-b  border-blue-400 text-left">
-                    Timestamp
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {teamDetails[selectedTeam].map((detail, index) => (
-                  <tr key={index}>
-                    <td className="py-2 px-4 border-b border-purple-400 text-left">
-                      {detail.location}
-                    </td>
-                    <td className="py-2 px-4 border-b border-purple-400 text-left">
-                      {detail.timestamp}
-                    </td>
+            <div>
+              <h3 className="text-xl font-bold text-white">
+                Team Name: {selectedTeam}
+              </h3>
+             
+              <table className="min-w-full text-black bg-white mt-4">
+                <thead>
+                  <tr>
+                    <th className="py-2 px-4 border-b border-purple-400 text-left">
+                      Location
+                    </th>
+                    <th className="py-2 px-4 border-b border-purple-400 text-left">
+                      Timestamp
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {teamDetails[selectedTeam].locationDetails.map(
+                    (detail, index) => (
+                      <tr key={index}>
+                        <td className="py-2 px-4 border-b border-purple-400 text-left">
+                          {detail.location}
+                        </td>
+                        <td className="py-2 px-4 border-b border-purple-400 text-left">
+                          {detail.timestamp}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       )}
-      <footer className="text-center pb-3 pt-7  text-white">
+
+      <footer className="text-center pb-3 pt-7 text-white">
         <p> 2024 Treasure Hunt</p>
       </footer>
     </div>
-    
   );
 };
 
