@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
 
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
