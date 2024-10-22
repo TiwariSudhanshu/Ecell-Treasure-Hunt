@@ -7,6 +7,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import TeamDashboard from "../Team Dashboard/TeamDashboard";
 import Loader from "../../components/PuffLoader";
+import EcellLogo from "../../../public/images/logo.png"
+
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");
@@ -63,7 +65,7 @@ const TeamEntry = () => {
 <div className="flex flex-col h-screen justify-center items-center">
 
   <Loader loading={true} size={150} color="blue"
-  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> 
+  imageSrc={EcellLogo} alt="Test" /> 
   </div>
   </>
   ) 
