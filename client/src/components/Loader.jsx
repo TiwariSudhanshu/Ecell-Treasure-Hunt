@@ -1,57 +1,79 @@
-import * as React from "react";
-
+import React from "react";
 import { cssValue } from "./helpers/unitConverter";
-import { createAnimation } from "./helpers/animation";
 
-const puff = [
-  createAnimation("PuffLoader", "0% {transform: scale(0)} 100% {transform: scale(1.0)}", "puff-1"),
-  createAnimation("PuffLoader", "0% {opacity: 1} 100% {opacity: 0}", "puff-2"),
-];
+// Define keyframes for the pulsating effect
+const pulsateKeyframes = `
+  @keyframes pulsate {
+    0% { transform: scale(0.8); opacity: 0.6; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0.6; }
+  }
+`;
 
 function PuffLoader({
   loading = true,
-  color = "#000000",
+  color = "#4b79a1",
   speedMultiplier = 1,
   cssOverride = {},
   size = 60,
-  ...additionalprops
+  imageSrc = "/images/logo.png",
+  ...additionalProps
 }) {
-  const wrapper = {
-    display: "inherit",
+  // Wrapper style for the loader
+  const wrapperStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     position: "relative",
     width: cssValue(size),
     height: cssValue(size),
     ...cssOverride,
   };
 
-  const style = (i) => {
-    return {
-      position: "absolute",
-      height: cssValue(size),
-      width: cssValue(size),
-      border: `thick solid ${color}`,
-      borderRadius: "50%",
-      opacity: "1",
-      top: "0",
-      left: "0",
-      animationFillMode: "both",
-      animation: `${puff[0]}, ${puff[1]}`,
-      animationDuration: `${2 / speedMultiplier}s`,
-      animationIterationCount: "infinite",
-      animationTimingFunction: "cubic-bezier(0.165, 0.84, 0.44, 1), cubic-bezier(0.3, 0.61, 0.355, 1)",
-      animationDelay: i === 1 ? "-1s" : "0s",
-    };
+  // Style for the pulsating rings
+  const ringStyle = {
+    position: "absolute",
+    width: `${size}px`,
+    height: `${size}px`,
+    border: `8px solid ${color}`,
+    borderRadius: "50%",
+    animation: `pulsate ${1.5 / speedMultiplier}s ease-in-out infinite`,
+    opacity: 0.7,
+  };
+
+  // Centered image style
+  const imageStyle = {
+    position: "relative",
+    width: `${size * 0.4}px`, // Image size is 40% of the loader size
+    height: `${size * 0.4}px`,
+    borderRadius: "50%",
+    objectFit: "cover",
+    zIndex: 5,
   };
 
   if (!loading) {
-    return null;
+    return null; // Do not render anything if not loading
   }
 
   return (
-    <span style={wrapper} {...additionalprops}>
-      <span style={style(1)} />
-      <span style={style(2)} />
-    </span>
+    <div style={wrapperStyle} {...additionalProps}>
+      {/* Inject keyframes for the pulsating animation */}
+      <style>{pulsateKeyframes}</style>
+
+      {/* Create two rings for the pulsating effect */}
+      <div style={{ ...ringStyle, animationDelay: "0s" }} />
+      <div
+        style={{
+          ...ringStyle,
+          animationDelay: "0.75s",
+          width: `${size * 0.9}px`,
+          height: `${size * 0.9}px`,
+        }}
+      />
+
+      {/* Centered image */}
+      {imageSrc && <img src={imageSrc} alt="Loader" style={imageStyle} />}
+    </div>
   );
 }
 

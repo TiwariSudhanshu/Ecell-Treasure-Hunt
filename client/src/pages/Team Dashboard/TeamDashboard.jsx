@@ -62,13 +62,7 @@ const TeamDashboard = () => {
             <strong>Locations Visited:</strong> {teamData.locationVisited || 0}
           </p>
         </div>
-        <div className="clue-box">
-          <h3>Your Next Clue:</h3>
-          <p>
-            {teamData.nextClue ||
-              "“I speak without a mouth and hear without ears. I have nobody, but I come alive with the wind.”"}
-          </p>
-        </div>
+       
         <button
           className="start-btn"
           onClick={() => {

@@ -58,7 +58,8 @@ function HuntStart() {
   }, [teamId]);
 
   if (loading) {
-    return <Loader/>;
+    return <Loader loading={true} size={150} color="blue" 
+    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> ;
   }
 
   return (

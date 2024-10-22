@@ -11,6 +11,7 @@ import Loader from "../../components/Loader";
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -33,6 +34,7 @@ const TeamEntry = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const teamCollection = collection(db, "teams");
       const q = query(teamCollection, where("teamId", "==", teamId));
@@ -53,8 +55,13 @@ const TeamEntry = () => {
       navigate(`/team/${teamId}`);
     } catch (error) {
       console.error("Error fetching document:", error);
+    }finally{
+      setLoading(true);
     }
   };
+  if (loading) return <Loader loading={true} size={150} color="blue" 
+  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> ;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
