@@ -98,6 +98,7 @@ function HuntFinish() {
 
       return (
         <Layout>
+           <div className='container'>
           <div className="center-container">
           <FaRegHandClap className="clap-icon" />
           <h2>Congratulations! You have finished your hunt!</h2>
@@ -121,7 +122,7 @@ function HuntFinish() {
         <div className="center-container">
           <h2>Error</h2>
           <p>{error}</p>
-        </div>
+        </div></div>
       </Layout>
     );
   }
