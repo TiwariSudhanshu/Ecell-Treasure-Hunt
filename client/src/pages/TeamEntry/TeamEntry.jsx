@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "./Layout"; // Import the layout component
+import Layout from "../Layout/Layout"; // Import the layout component
 import "./TeamEntry.css"; // Import the updated styles
 import { ToastContainer, toast } from "react-toastify";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase";
-import TeamDashboard from "./TeamDashboard";
+import { db } from "../../firebase";
+import TeamDashboard from "../Team Dashboard/TeamDashboard";
+import Loader from "../../components/Loader";
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./Admin";
+
 import {
   AddLocationForm,
   AddTeamForm,
@@ -19,7 +21,7 @@ const Admin = ({ setIsAdmin, isAdmin }) => {
   return (
     <>
       {!isAdmin && (
-        <div className="flex justify-center items-center flex-col gap-4 h-screen">
+        <div className="flex justify-center items-center flex-col gap-4 h-screen admin">
           Enter your Admin Passkey
           <input
             className="!w-[200px]"
@@ -30,7 +32,7 @@ const Admin = ({ setIsAdmin, isAdmin }) => {
             placeholder="Enter your passkey"
             type="text"
           />
-          <button type="submit" className="w-fit" onClick={SubmitPasskey}>
+          <button className="w-[13vmax]" type="submit" onClick={SubmitPasskey}>
             Submit
           </button>
         </div>

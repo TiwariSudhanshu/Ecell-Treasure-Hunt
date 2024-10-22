@@ -11,11 +11,13 @@
     padding: 20px;
     text-align: center;
     background-color: #040023;
+
 }
 
 .header h1 {
     margin: 0;
     font-size: 2rem;
+    text-transform: capitalize !important;
 }
 
 .main-content {
