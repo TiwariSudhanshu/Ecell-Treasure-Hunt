@@ -3,10 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
 import Layout from '../pages/Layout/Layout';
-import './Hunt-Finish.css'; // Create a CSS file for styling
-// import { FaRegHandClap } from 'react-icons/fa'; // Import the clap icon
-// import { FaRegHandRock } from 'react-icons/fa';
-import {FaHandsClapping}  from 'react-icons/fa6'
+import './Hunt-Finish.css'; // Ensure this CSS file exists and is properly linked
+import { FaHandsClapping } from 'react-icons/fa6'; // Correct import for the icon
 
 function HuntFinish() {
   const location = useLocation();
@@ -100,23 +98,16 @@ function HuntFinish() {
 
       return (
         <Layout>
-           <div className='container'>
-          <div className="center-container">
-          <FaHandsClapping className="clap-icon" />
-          <h2>Congratulations! You have finished your hunt!</h2>
-        </div>
+          <div className='container'>
+            <div className="center-container">
+              <FaHandsClapping className="clap-icon" />
+              <h2>Congratulations! You have finished your hunt!</h2>
+            </div>
+          </div>
         </Layout>
       );
     }
-  }else{
-    return (
-      <Layout>
-        <div className="center-container">
-        <h2>Hey! It seems your hunt isn't finished for this location.</h2>
-      </div>
-      </Layout>
-    );
-  }
+  } 
 
   if (error) {
     return (
@@ -124,12 +115,18 @@ function HuntFinish() {
         <div className="center-container">
           <h2>Error</h2>
           <p>{error}</p>
-        </div></div>
+        </div>
       </Layout>
     );
   }
 
-  
+  return (
+    <Layout>
+      <div className="center-container">
+        <h2>Hey! It seems your hunt isn't finished for this location.</h2>
+      </div>
+    </Layout>
+  );
 }
 
 export default HuntFinish;

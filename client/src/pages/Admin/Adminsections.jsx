@@ -21,16 +21,15 @@ export const AddTeamForm = () => {
 
   const [loading, setLoading] = useState(false);
   const [routes] = useState([
-    { id: "Route A", locations: ["XazwJCxusb", "IJSYCNdjKZ", "dIjQzfTyOz", "IFohTLhaPm", "JbWhuAIIld", "wYCKeFSHxP"] },
-    { id: "Route B", locations: ["IJSYCNdjKZ", "dIjQzfTyOz", "IFohTLhaPm", "JbWhuAIIld", "kZNvDgsqZT", "wYCKeFSHxP"] },
-    { id: "Route C", locations: ["XazwJCxusb", "IFohTLhaPm", "JbWhuAIIld", "kZNvDgsqZT", "anUoDLgRpP", "wYCKeFSHxP"] },
-    { id: "Route D", locations: ["dIjQzfTyOz", "IFohTLhaPm", "anUoDLgRpP", "kZNvDgsqZT", "JbWhuAIIld", "wYCKeFSHxP"] },
-    { id: "Route E", locations: ["IJSYCNdjKZ", "XazwJCxusb", "anUoDLgRpP", "JbWhuAIIld", "kZNvDgsqZT", "wYCKeFSHxP"] },
-    { id: "Route F", locations: ["XazwJCxusb", "dIjQzfTyOz", "anUoDLgRpP", "kZNvDgsqZT", "IFohTLhaPm", "wYCKeFSHxP"] },
-    { id: "Route G", locations: ["IJSYCNdjKZ", "JbWhuAIIld", "XazwJCxusb", "anUoDLgRpP", "dIjQzfTyOz", "wYCKeFSHxP"] }
+    { id: "Route A", locations: ["anUoDLgRpP", "XazwJCxusb", "kZNvDgsqZT", "dIjQzfTyOz", "IJSYCNdjKZ", "wYCKeFSHxP"] },
+    { id: "Route B", locations: ["IFohTLhaPm", "JbWhuAIIld", "XazwJCxusb", "anUoDLgRpP", "kZNvDgsqZT", "wYCKeFSHxP"] },
+    { id: "Route C", locations: ["IJSYCNdjKZ", "dIjQzfTyOz", "anUoDLgRpP", "JbWhuAIIld", "XazwJCxusb", "wYCKeFSHxP"] },
+    { id: "Route D", locations: ["kZNvDgsqZT", "XazwJCxusb", "IFohTLhaPm", "JbWhuAIIld", "anUoDLgRpP", "wYCKeFSHxP"] },
+    { id: "Route E", locations: ["dIjQzfTyOz", "IJSYCNdjKZ", "kZNvDgsqZT", "anUoDLgRpP", "IFohTLhaPm", "wYCKeFSHxP"] },
+    { id: "Route F", locations: ["XazwJCxusb", "IFohTLhaPm", "IJSYCNdjKZ", "dIjQzfTyOz", "JbWhuAIIld", "wYCKeFSHxP"] },
+    { id: "Route G", locations: ["JbWhuAIIld", "dIjQzfTyOz", "anUoDLgRpP", "IJSYCNdjKZ", "kZNvDgsqZT", "wYCKeFSHxP"] }
   ]);
   
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     

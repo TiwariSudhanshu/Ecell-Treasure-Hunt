@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { FaUser, FaEnvelope, FaIdBadge } from "react-icons/fa"; // Import icons
 import Layout from "../Layout/Layout";
 import "./teamDashboard.css";
 
@@ -20,11 +21,10 @@ const TeamDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch the team data from localStorage
     const storedTeamData = localStorage.getItem("team");
     if (storedTeamData) {
       const parsedData = JSON.parse(storedTeamData);
-      const team = parsedData.find((team) => team.teamId === teamId); // Assuming teamId is unique
+      const team = parsedData.find((team) => team.teamId === teamId);
       setTeamData(team || {});
     }
   }, [teamId]);
@@ -32,37 +32,29 @@ const TeamDashboard = () => {
   return (
     <Layout>
       <div className="dashboard-container">
-        <h2>
-          Welcome, Team <span>{teamData.teamName}</span>
-        </h2>
-        <p>
-          This is your dashboard for the treasure hunt. Get ready for your next
-          clue!
-        </p>
-        <div className="team-info">
-          <p>
-            <strong>Team ID:</strong> {teamData.teamId}
-          </p>
-          <p>
-            <strong>Leader Email:</strong> {teamData.teamLeaderEmail}
-          </p>
-          <p>
-            <strong>Team Leader:</strong> {teamData.teamLeaderName}
-          </p>
-          <p>
-            <strong>2nd Member:</strong> {teamData.secondMember}
-          </p>
-          <p>
-            <strong>3rd Member:</strong> {teamData.thirdMember}
-          </p>
-          <p>
-            <strong>4th Member:</strong> {teamData.fourthMember}
-          </p>
-          <p>
-            <strong>Locations Visited:</strong> {teamData.locationVisited || 0}
-          </p>
+        {/* Team ID and Email at the top */}
+        <div className="team-header">
+          <h2> Team ID: {teamData.teamId}</h2>
+          <p><FaEnvelope /> Email: {teamData.teamLeaderEmail}</p>
         </div>
-       
+
+        {/* Team members - two on the left, two on the right */}
+        <div className="team-members">
+          <div className="team-left">
+            <p><FaUser /> <strong>Team Leader:</strong> {teamData.teamLeaderName}</p>
+            <p><FaUser /> <strong>2nd Member:</strong> {teamData.secondMember}</p>
+          </div>
+          <div className="team-right">
+            <p><FaUser /> <strong>3rd Member:</strong> {teamData.thirdMember}</p>
+            <p><FaUser /> <strong>4th Member:</strong> {teamData.fourthMember}</p>
+          </div>
+        </div>
+
+        {/* Locations Visited */}
+        <div className="team-info">
+          <p><strong>Locations Visited:</strong> {teamData.locationVisited || 0}</p>
+        </div>
+
         <button
           className="start-btn"
           onClick={() => {
