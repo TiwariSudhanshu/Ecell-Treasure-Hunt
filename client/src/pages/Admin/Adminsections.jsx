@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
 
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
@@ -266,7 +266,7 @@ export const AddLocationForm = () => {
     setLoading(true);
     try {
       const docRef = await addDoc(collection(db, "locations"), {
-        locationId: locationData.locationId, // Include locationId in the document
+        locationId: locationData.locationId,
         locationName: locationData.locationName,
         hint1: locationData.hint1,
         hint2: locationData.hint2,
@@ -276,6 +276,16 @@ export const AddLocationForm = () => {
 
       console.log("Document written with ID: ", docRef.id);
       toast.success("Location successfully added");
+
+      // Clear the form fields after successful submission
+      setLocationData({
+        locationId: "",
+        locationName: "",
+        hint1: "",
+        hint2: "",
+        hint3: "",
+        slug: "",
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error("Error adding location.");
@@ -300,6 +310,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Location ID"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="locationName" className="font-bold">
@@ -313,6 +324,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Location Name"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint1" className="font-bold">
@@ -326,6 +338,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 1"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint2" className="font-bold">
@@ -339,6 +352,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 2"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint3" className="font-bold">
@@ -352,6 +366,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 3"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="slug" className="font-bold">
@@ -365,18 +380,28 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Slug (no spaces)"
         className="input-class border p-2 rounded"
+        required
       />
 
       <button
         type="submit"
         className="submit-button-class bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
       >
-        {loading ?<Loader loading={true} size={150} color="blue" 
-        imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> : "Submit"}
+        {loading ? (
+          <Loader
+            loading={true}
+            size={150}
+            color="blue"
+            imageSrc="https://www.ecellrgpv.com/assets/img/logo.png"
+            alt="Loading"
+          />
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );
-}
+};
 export const Locations = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);

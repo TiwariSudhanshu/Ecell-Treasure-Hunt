@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import TeamDashboard from "../Team Dashboard/TeamDashboard";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");
