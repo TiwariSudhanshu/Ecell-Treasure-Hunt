@@ -72,7 +72,8 @@ function HuntStart() {
   return (
     <Layout>
       <div className='container'>
-        <h1>Hunt has been started</h1>
+        <h1>Hunt has been</h1><br/>
+        <h1 className="green-text">STARTED!!</h1>
         <div className="clue-container">
           <h2 className="clue-text">
             <FaMapMarkerAlt className="icon" />
