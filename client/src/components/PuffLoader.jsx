@@ -48,7 +48,7 @@ function PuffLoader({
     height: `${size * 0.4}px`,
     borderRadius: "50%",
     objectFit: "cover",
-    zIndex: 2,
+    zIndex: 5,
   };
 
   if (!loading) {
