@@ -34,21 +34,18 @@ const TeamDashboard = () => {
       <div className="dashboard-container">
         {/* Team ID and Email at the top */}
         <div className="team-header">
-          <h2> Team ID: {teamData.teamId}</h2>
-          <p><FaEnvelope /> Email: {teamData.teamLeaderEmail}</p>
+          <h2> Team ID: <span className="team-id">{teamData.teamId}</span></h2>
+          <p className="flex gap-1 items-center content-center justify-center"><FaEnvelope />: {teamData.teamLeaderEmail}</p>
         </div>
 
         {/* Team members - two on the left, two on the right */}
         <div className="team-members">
-          <div className="team-left">
-            <p><FaUser /> <strong>Team Leader:</strong> {teamData.teamLeaderName}</p>
-            <p><FaUser /> <strong>2nd Member:</strong> {teamData.secondMember}</p>
-          </div>
-          <div className="team-right">
-            <p><FaUser /> <strong>3rd Member:</strong> {teamData.thirdMember}</p>
-            <p><FaUser /> <strong>4th Member:</strong> {teamData.fourthMember}</p>
-          </div>
+            <p className="p-2"><FaUser /> <strong>Team Leader:</strong> <span className="member-name">{teamData.teamLeaderName}</span></p>
+            <p className="p-2"><FaUser /> <strong>2nd Member:</strong> <span className="member-name">{teamData.secondMember}</span></p>
+            <p className="p-2"><FaUser /> <strong>3rd Member:</strong> <span className="member-name">{teamData.thirdMember}</span></p>
+            <p className="p-2"><FaUser /> <strong>4th Member:</strong> <span className="member-name">{teamData.fourthMember}</span></p>
         </div>
+
 
         {/* Locations Visited */}
         <div className="team-info">

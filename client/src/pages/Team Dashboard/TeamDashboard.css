@@ -25,7 +25,6 @@ body {
 
 h2 {
   font-size: 1.8rem;
-  color: #00c853; /* Green accent for team ID */
   margin-bottom: 5px;
 }
 
@@ -37,30 +36,47 @@ p {
 /* Layout for team members (two on the left, two on the right) */
 .team-members {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack members vertically */
+  align-items: flex-start; /* Align items to the left */
   margin: 20px 0;
+
+ 
 }
 
-.team-left, .team-right {
+.team-members svg { 
+  margin-right: 10px; 
+  font-size: 1.5rem; 
+}
+
+.team-members p {
   display: flex;
-  flex-direction: column;
-  text-align: left;
-  width: 45%; /* Adjusts width for both sides */
-}
-
-.team-left p, .team-right p {
+  align-items: center; 
   margin: 10px 0;
-  font-size: 1.1rem;
-  color: #dcdcdc;
 }
 
-/* Other elements */
+
+.team-id {
+  color: #ffcc00; 
+  font-weight: bold;
+}
+
+.member-name {
+  padding-inline: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif; 
+  font-weight: bold; 
+  color: #00c853; 
+}
+
+
+
+
 .team-info {
   margin-top: 20px;
 }
 
 .start-btn {
   margin-top: 40px;
+  margin-bottom: 10px;
   width: 100%;
   padding: 15px 30px;
   background-color: #007bff;
