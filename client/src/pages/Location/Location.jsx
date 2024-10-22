@@ -123,8 +123,12 @@ const LocationPage = () => {
     fetchLocationData();
   }, [locationId, navigate, teamId]);
 
-  if (loading) return <Loader loading={true} size={150} color="blue" 
-  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> ;
+  if (loading) return( 
+    <><div className="flex flex-col h-screen justify-center items-center">
+  <Loader loading={true} size={150} color="blue" 
+  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />
+  </div></>
+  );
   if (error) return <p>{error}</p>;
 
   return (

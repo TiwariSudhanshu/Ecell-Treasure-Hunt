@@ -75,6 +75,10 @@ const TeamDashboard = () => {
         >
           Start Hunt
         </button>
+        <button id="logout" onClick={()=>{
+          localStorage.removeItem("team");
+          navigate("/")
+        }}>Logout</button>
       </div>
     </Layout>
   );

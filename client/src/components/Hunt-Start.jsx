@@ -5,6 +5,7 @@ import { db } from '../firebase'; // Ensure Firestore is configured
 import Loader from './PuffLoader';
 import Layout from '../pages/Layout/Layout';
 import "./Hunt-Start.css";
+import EcellLogo from "../../public/images/logo.png"
 
 function HuntStart() {
   const [clue, setClue] = useState("");
@@ -58,8 +59,13 @@ function HuntStart() {
   }, [teamId]);
 
   if (loading) {
-    return <Loader loading={true} size={150} color="blue" 
-    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> ;
+    return (
+      <>
+      <div className="flex flex-col h-screen justify-center items-center">
+      <Loader loading={true} size={150} color="blue" 
+    imageSrc={EcellLogo} alt="Test" />
+        </div></>
+    ) ;
   }
 
   return (
