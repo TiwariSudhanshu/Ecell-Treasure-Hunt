@@ -1,0 +1,26 @@
+h2 {
+  font-size: 2rem;
+  color: white;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  color: aquablue;
+}
+
+/* Style the clap icon */
+.clap-icon {
+  font-size: 5rem;
+  color: #4CAF50; 
+  animation: clap 1s ease-in-out infinite; 
+}
+
+@keyframes clap {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
