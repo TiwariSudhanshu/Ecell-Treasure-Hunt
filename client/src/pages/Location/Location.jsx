@@ -4,6 +4,8 @@ import { db } from "../../firebase";
 import { collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore";
 import Layout from "../Layout/Layout";
 import Loader from "../../components/PuffLoader";
+import { LuPartyPopper } from "react-icons/lu";
+import { GiPartyPopper } from "react-icons/gi";
 import "./location.css"
 
 const LocationPage = () => {
@@ -134,6 +136,7 @@ const LocationPage = () => {
   return (
     <Layout>
       <div className="location-container">
+        <GiPartyPopper className="party-icon" />
         <h2>Congratulations! You are at the right location</h2>
         <h2>Next Location Clue</h2>
         <p>{nextClue}</p>
