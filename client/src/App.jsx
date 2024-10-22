@@ -18,7 +18,7 @@ function App() {
     <Routes>
 <Route path="/loader" element={
         <div className="loader-container">
-          <PuffLoader loading={true} size={120} imageSrc="/images/logo.png" color="#4b79a1" />
+          <PuffLoader loading={true} size={130} imageSrc="/images/logo.png" color="#4b79a1" />
         </div>
       } />      <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/invalidlocation" element={<Invalidloc />} />
