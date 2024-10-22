@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase'; // Ensure Firestore is configured
 // import Layout from '../pages/Layout/Layout';
-import Loader from './Loader';
+import Loader from './PuffLoader';
 import Layout from '../pages/Layout/Layout';
 import "./Hunt-Start.css";
+import EcellLogo from "../../public/images/logo.png"
 
 function HuntStart() {
   const [clue, setClue] = useState("");
@@ -58,7 +59,13 @@ function HuntStart() {
   }, [teamId]);
 
   if (loading) {
-    return <Loader/>;
+    return (
+      <>
+      <div className="flex flex-col h-screen justify-center items-center">
+      <Loader loading={true} size={150} color="blue" 
+    imageSrc={EcellLogo} alt="Test" />
+        </div></>
+    ) ;
   }
 
   return (

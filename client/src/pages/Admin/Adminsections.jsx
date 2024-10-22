@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
 
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
@@ -15,7 +15,8 @@ export const AddTeamForm = () => {
     thirdMember: "",
     fourthMember: "",
     teamId: "",
-    route: "", // Field for selected route
+    route: "", 
+    noOfLocation: 0 // Initial state for noOfLocation
   });
 
   const [loading, setLoading] = useState(false);
@@ -27,10 +28,24 @@ export const AddTeamForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTeamData({
-      ...teamData,
-      [name]: value,
-    });
+    
+    // Check if the 'route' field is being updated
+    if (name === 'route') {
+      // Find the selected route
+      const selectedRoute = routes.find(route => route.id === value);
+      const noOfLocation = selectedRoute ? selectedRoute.locations.length : 0;
+
+      setTeamData({
+        ...teamData,
+        [name]: value,
+        noOfLocation: noOfLocation // Update noOfLocation based on the selected route
+      });
+    } else {
+      setTeamData({
+        ...teamData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -53,7 +68,8 @@ export const AddTeamForm = () => {
         teamId: teamData.teamId,
         route: teamData.route, // Save selected route ID
         locations: locations, // Save locations based on the selected route
-        nextLocationId: nextLocationId, // Store the first location ID
+        nextLocationId: nextLocationId,
+        noOfLocation: teamData.noOfLocation // Save noOfLocation value
       });
       console.log("Document written with ID: ", docRef.id);
       toast.success("Successfully Registered");
@@ -69,6 +85,7 @@ export const AddTeamForm = () => {
         fourthMember: "",
         teamId: "",
         route: "", // Reset route selection
+        noOfLocation: 0
       });
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -83,8 +100,7 @@ export const AddTeamForm = () => {
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-[300px] md:w-[800px] mx-auto p-4"
     >
-      {/* Form fields */}
-      <label htmlFor="teamName" className="font-bold">
+           <label htmlFor="teamName" className="font-bold">
         Team Name
       </label>
       <input
@@ -217,11 +233,13 @@ export const AddTeamForm = () => {
         type="submit"
         className="submit-button-class bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
       >
-        {loading ? "Loading..." : "Submit"}
+        {loading ? <Loader loading={true} size={150} color="blue" 
+        imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> : "Submit"}
       </button>
     </form>
   );
 };
+
 
 export const AddLocationForm = () => {
   const [locationData, setLocationData] = useState({
@@ -248,7 +266,7 @@ export const AddLocationForm = () => {
     setLoading(true);
     try {
       const docRef = await addDoc(collection(db, "locations"), {
-        locationId: locationData.locationId, // Include locationId in the document
+        locationId: locationData.locationId,
         locationName: locationData.locationName,
         hint1: locationData.hint1,
         hint2: locationData.hint2,
@@ -258,6 +276,16 @@ export const AddLocationForm = () => {
 
       console.log("Document written with ID: ", docRef.id);
       toast.success("Location successfully added");
+
+      // Clear the form fields after successful submission
+      setLocationData({
+        locationId: "",
+        locationName: "",
+        hint1: "",
+        hint2: "",
+        hint3: "",
+        slug: "",
+      });
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error("Error adding location.");
@@ -282,6 +310,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Location ID"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="locationName" className="font-bold">
@@ -295,6 +324,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Location Name"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint1" className="font-bold">
@@ -308,6 +338,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 1"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint2" className="font-bold">
@@ -321,6 +352,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 2"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="hint3" className="font-bold">
@@ -334,6 +366,7 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Hint 3"
         className="input-class border p-2 rounded"
+        required
       />
 
       <label htmlFor="slug" className="font-bold">
@@ -347,17 +380,28 @@ export const AddLocationForm = () => {
         onChange={handleChange}
         placeholder="Enter Slug (no spaces)"
         className="input-class border p-2 rounded"
+        required
       />
 
       <button
         type="submit"
         className="submit-button-class bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
       >
-        {loading ? "Loading..." : "Submit"}
+        {loading ? (
+          <Loader
+            loading={true}
+            size={150}
+            color="blue"
+            imageSrc="https://www.ecellrgpv.com/assets/img/logo.png"
+            alt="Loading"
+          />
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );
-}
+};
 export const Locations = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -382,7 +426,8 @@ export const Locations = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading locations...</p>;
+    return <Loader loading={true} size={150} color="blue" 
+    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />;
   }
 
   return (
@@ -445,7 +490,8 @@ export const TeamMembers = () => {
   }, []);
 
   if (loading) {
-    return <Loader/>;
+    return <Loader loading={true} size={150} color="blue" 
+    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />;
   }
 
   return (

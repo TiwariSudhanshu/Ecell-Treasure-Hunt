@@ -8,10 +8,10 @@ body {
 }
 
 .team-entry-container {
-    border: 0.01em solid white;
+    border: 0.01em solid beige;
     border-radius: 20px ;
     padding: 40px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow:10px 10px rgb(31, 239, 203,0.1);
     max-width: 400px;
     width: 100%;
     text-align: center;

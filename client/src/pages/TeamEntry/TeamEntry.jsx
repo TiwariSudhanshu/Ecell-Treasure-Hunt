@@ -6,11 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import TeamDashboard from "../Team Dashboard/TeamDashboard";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
 
 const TeamEntry = () => {
   const [teamId, setTeamId] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -33,6 +34,7 @@ const TeamEntry = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const teamCollection = collection(db, "teams");
       const q = query(teamCollection, where("teamId", "==", teamId));
@@ -53,8 +55,19 @@ const TeamEntry = () => {
       navigate(`/team/${teamId}`);
     } catch (error) {
       console.error("Error fetching document:", error);
+    }finally{
+      setLoading(true);
     }
   };
+  if (loading) return (<>
+<div className="flex flex-col h-screen justify-center items-center">
+
+  <Loader loading={true} size={150} color="blue"
+  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> 
+  </div>
+  </>
+  ) 
+  if (error) return <p>{error}</p>;
 
   return (
     <>

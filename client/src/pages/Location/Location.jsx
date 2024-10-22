@@ -3,7 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
 import { collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore";
 import Layout from "../Layout/Layout";
-import Loader from "../../components/Loader";
+import Loader from "../../components/PuffLoader";
+import "./location.css"
 
 const LocationPage = () => {
   const { locationId } = useParams(); 
@@ -122,14 +123,18 @@ const LocationPage = () => {
     fetchLocationData();
   }, [locationId, navigate, teamId]);
 
-  if (loading) return <Loader />;
+  if (loading) return( 
+    <><div className="flex flex-col h-screen justify-center items-center">
+  <Loader loading={true} size={150} color="blue" 
+  imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />
+  </div></>
+  );
   if (error) return <p>{error}</p>;
 
   return (
     <Layout>
-      <div>
+      <div className="location-container">
         <h2>Congratulations! You are at the right location</h2>
-        
         <h2>Next Location Clue</h2>
         <p>{nextClue}</p>
       </div>

@@ -98,15 +98,20 @@ function HuntFinish() {
         <Layout>
           <div>
             <h2>Congratulations! You have finished your hunt!</h2>
-            <p>Your next location ID matches: {nextLocationId}</p>
-            {/* Add any other relevant information you want to display */}
           </div>
         </Layout>
       );
     }
+  }else{
+    return (
+      <Layout>
+        <div>
+          <h2>Hey! It seems your hunt isn't finished for this location.</h2>
+        </div>
+      </Layout>
+    );
   }
 
-  // Handle loading and error states
   if (error) {
     return (
       <Layout>
@@ -118,14 +123,7 @@ function HuntFinish() {
     );
   }
 
-  return (
-    <Layout>
-      <div>
-        <h2>Hey! It seems your hunt isn't finished for this location.</h2>
-        {/* You can add additional info or instructions here */}
-      </div>
-    </Layout>
-  );
+  
 }
 
 export default HuntFinish;

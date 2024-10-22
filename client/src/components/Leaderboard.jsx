@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure you have Firebase initialized
-import "./leaderboard.css";
-
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-  integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>;
+import "./leaderboard.css"; // Import your CSS file for styling
 
 const TreasureHunt = () => {
   const [selectedView, setSelectedView] = useState("leaderboard");
@@ -24,12 +16,13 @@ const TreasureHunt = () => {
         const teamCollection = collection(db, "teams");
         const teamSnapshot = await getDocs(teamCollection);
 
-        const teamData = {};
         const tempTeams = [];
 
-        const leaderboardPromises = teamSnapshot.docs.map(async (doc) => {
+        // For each team, fetch leaderboard timestamp
+        for (const doc of teamSnapshot.docs) {
           const team = doc.data();
           const teamId = team.teamId;
+          const noOfLocation = team.noOfLocation; // Assuming 'noOfLocation' field exists in Firestore
 
           // Fetch the latest timestamp from the leaderboard collection
           const leaderboardQuery = query(
@@ -41,43 +34,19 @@ const TreasureHunt = () => {
           let latestTimestamp = "";
           if (!leaderboardSnapshot.empty) {
             const leaderboardData = leaderboardSnapshot.docs[0].data();
-            latestTimestamp = leaderboardData.timestamp.toDate().toString(); // Convert Firestore Timestamp to Date
+            latestTimestamp = leaderboardData.timestamp.toDate().toString();
           }
-
-          // Build team data with additional details like contact and email
-          teamData[team.teamName] = {
-            teamId: team.teamId,
-            contact: team.contact,
-            email: team.email,
-            locationDetails: [
-              ...(teamData[team.teamName]?.locationDetails || []),
-              {
-                location: team.location,
-                timestamp: latestTimestamp,
-              },
-            ],
-          };
 
           // Add teams to a temporary array for leaderboard
           tempTeams.push({
             teamId,
             teamName: team.teamName,
             latestLocation: latestTimestamp || "No recent activity",
+            noOfLocation: noOfLocation || 0, // Use noOfLocation fetched from Firestore
           });
-        });
-
-        await Promise.all(leaderboardPromises);
-
-        // Sort team details and leaderboard by timestamp (oldest first)
-        for (const key in teamData) {
-          teamData[key].locationDetails.sort(
-            (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-          );
         }
 
-        setTeamDetails(teamData);
-
-        // Sort leaderboard by the latestLocation timestamp (newest first)
+        // Sort leaderboard by the latest location timestamp (oldest first)
         const sortedTeams = tempTeams.sort(
           (a, b) => new Date(b.latestLocation) - new Date(a.latestLocation)
         );
@@ -88,7 +57,7 @@ const TreasureHunt = () => {
     };
 
     fetchTeamData();
-  }, []);
+  }, []); // Run this once after component loads
 
   return (
     <div className="pt-8 pr-8 pl-8 h-screen container">
@@ -132,6 +101,9 @@ const TreasureHunt = () => {
                   <th className="py-2 px-4 border-b border-blue-400 text-left">
                     Latest Location Timestamp
                   </th>
+                  <th className="py-2 px-4 border-b border-blue-400 text-left">
+                    No of location visited
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -142,6 +114,9 @@ const TreasureHunt = () => {
                     </td>
                     <td className="py-2 px-4 border-b border-blue-400 text-left">
                       {team.latestLocation}
+                    </td>
+                    <td className="py-2 px-4 border-b border-blue-400 text-left">
+                      {team.noOfLocation}
                     </td>
                   </tr>
                 ))}
@@ -169,7 +144,6 @@ const TreasureHunt = () => {
                 <h3 className="text-xl font-bold text-white">
                   Team Name: {selectedTeam}
                 </h3>
-
                 <table className="min-w-full text-black bg-white mt-4">
                   <thead>
                     <tr>
@@ -202,7 +176,7 @@ const TreasureHunt = () => {
         )}
 
         <footer className="text-center pb-3 pt-7 text-white">
-          <p>2024 Treasure Hunt</p>
+          <p> 2024 Treasure Hunt</p>
         </footer>
       </div>
     </div>
