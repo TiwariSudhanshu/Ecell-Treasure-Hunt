@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, query, where, addDoc } from 'firebase/firestore';
 import Layout from '../pages/Layout/Layout';
+import './HuntFinish.css'; // Create a CSS file for styling
+import { FaRegHandClap } from 'react-icons/fa'; // Import the clap icon
 
 function HuntFinish() {
   const location = useLocation();
@@ -96,18 +98,19 @@ function HuntFinish() {
 
       return (
         <Layout>
-          <div>
-            <h2>Congratulations! You have finished your hunt!</h2>
-          </div>
+          <div className="center-container">
+          <FaRegHandClap className="clap-icon" />
+          <h2>Congratulations! You have finished your hunt!</h2>
+        </div>
         </Layout>
       );
     }
   }else{
     return (
       <Layout>
-        <div>
-          <h2>Hey! It seems your hunt isn't finished for this location.</h2>
-        </div>
+        <div className="center-container">
+        <h2>Hey! It seems your hunt isn't finished for this location.</h2>
+      </div>
       </Layout>
     );
   }
@@ -115,7 +118,7 @@ function HuntFinish() {
   if (error) {
     return (
       <Layout>
-        <div>
+        <div className="center-container">
           <h2>Error</h2>
           <p>{error}</p>
         </div>
