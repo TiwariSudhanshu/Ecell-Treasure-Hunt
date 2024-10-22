@@ -4,5 +4,8 @@
   justify-content: center;  
   align-items: center;      
   height: 100vh;           
-  text-align: center; 
+  text-align: center;
+    border:3px solid beige;
+    border-radius:25px;
+    box-shadow:10px 10px rgb(31, 239, 203,0.1);
 }
