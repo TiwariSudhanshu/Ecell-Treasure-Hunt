@@ -11,9 +11,9 @@ body {
     /* background-color: #0a0531; */
     margin: 4rem 4rem;
     border-radius: 10px;
-    border: 1px solid white;
+    border: 3px solid beige;
     padding: 40px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow:10px 10px rgb(31, 239, 203,0.1);
     max-width: 600px;
     width: 100%;
     text-align: center;
