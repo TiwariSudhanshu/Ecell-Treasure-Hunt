@@ -9,3 +9,15 @@
     border-radius:25px;
     box-shadow:10px 10px rgb(31, 239, 203,0.1);
 }
+h1 {
+    font-size: 45px;
+    font-weight: 700;
+    color: beige;
+    margin-bottom: 20px;
+    text-align: center;
+/*     text-shadow: 0 0 10px #00ff00; */
+}
+.party-icon {
+    margin-right: 10px;
+    font-size: 30px;
+    color: white;}
