@@ -14,9 +14,10 @@
 h1 {
   font-size: 45px;
   font-weight: 700;
-  color: white;
+  color:green;
   margin-bottom: 20px;
   text-align: center;
+    text-shadow: 0 0 10px #00ff00,
 }
 
 .clue-container {
