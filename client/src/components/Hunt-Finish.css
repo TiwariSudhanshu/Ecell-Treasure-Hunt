@@ -1,0 +1,39 @@
+.container {
+    border: .01em solid beige;
+    border-radius: 14px;
+    box-shadow:10px 10px rgb(31, 239, 203,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically centers the content */
+    align-items: center;  
+    width: 60vw;    /* Horizontally centers the content */
+    height: 70vh;            /* Full viewport height */
+    text-align: center;
+    /* background-color: #f8f9fa; Optional: light background color */
+  }
+h2 {
+  font-size: 2rem;
+  color: white;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  color: aquablue;
+}
+
+/* Style the clap icon */
+.clap-icon {
+  font-size: 5rem;
+  color: #4CAF50; 
+  animation: clap 1s ease-in-out infinite; 
+}
+
+@keyframes clap {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}

@@ -27,7 +27,7 @@ const LocationPage = () => {
     const fetchLocationData = async () => {
       try {
         const locationCollection = collection(db, "locations");
-        const locationQuery = query(locationCollection, where("locationId", "==", locationId.toLowerCase()));
+        const locationQuery = query(locationCollection, where("locationId", "==", locationId));
         const locationSnapshot = await getDocs(locationQuery);
 
         if (locationSnapshot.empty) {

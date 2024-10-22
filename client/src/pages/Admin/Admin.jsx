@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Admin"
+import "./Admin";
 
 import {
   AddLocationForm,

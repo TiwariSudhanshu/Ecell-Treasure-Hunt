@@ -20,11 +20,16 @@ export const AddTeamForm = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [routes] = useState([ // Sample routes with location IDs
-    { id: "Route A", locations: ["a01", "a03", "a04"] },
-    { id: "Route B", locations: ["a02", "a03", "a05"] },
-    { id: "Route C", locations: ["a01", "a04", "a05"] },
+  const [routes] = useState([
+    { id: "Route A", locations: ["XazwJCxusb", "IJSYCNdjKZ", "dIjQzfTyOz", "IFohTLhaPm", "JbWhuAIIld", "wYCKeFSHxP"] },
+    { id: "Route B", locations: ["IJSYCNdjKZ", "dIjQzfTyOz", "IFohTLhaPm", "JbWhuAIIld", "kZNvDgsqZT", "wYCKeFSHxP"] },
+    { id: "Route C", locations: ["XazwJCxusb", "IFohTLhaPm", "JbWhuAIIld", "kZNvDgsqZT", "anUoDLgRpP", "wYCKeFSHxP"] },
+    { id: "Route D", locations: ["dIjQzfTyOz", "IFohTLhaPm", "anUoDLgRpP", "kZNvDgsqZT", "JbWhuAIIld", "wYCKeFSHxP"] },
+    { id: "Route E", locations: ["IJSYCNdjKZ", "XazwJCxusb", "anUoDLgRpP", "JbWhuAIIld", "kZNvDgsqZT", "wYCKeFSHxP"] },
+    { id: "Route F", locations: ["XazwJCxusb", "dIjQzfTyOz", "anUoDLgRpP", "kZNvDgsqZT", "IFohTLhaPm", "wYCKeFSHxP"] },
+    { id: "Route G", locations: ["IJSYCNdjKZ", "JbWhuAIIld", "XazwJCxusb", "anUoDLgRpP", "dIjQzfTyOz", "wYCKeFSHxP"] }
   ]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -497,11 +502,12 @@ export const TeamMembers = () => {
   return (
     <div className="overflow-x-auto">
       <table className="table-auto w-full text-left border-collapse">
-        <thead>
+        <thead className="text-amber-400">
           <tr>
             <th className="border p-2">Team Name</th>
             <th className="border p-2">Team Id</th>
             <th className="border p-2">Team Leader Name</th>
+            <th className="border p-2">Team Id</th>
             <th className="border p-2">Team Leader Email</th>
             <th className="border p-2">Team Leader Contact</th>{" "}
             {/* Added Contact */}
@@ -516,6 +522,7 @@ export const TeamMembers = () => {
               <td className="border p-2">{team.teamName}</td>
               <td className="border p-2">{team.teamId}</td>
               <td className="border p-2">{team.teamLeaderName}</td>
+              <td className="border p-2">{team.teamId}</td>
               <td className="border p-2">{team.teamLeaderEmail}</td>
               <td className="border p-2">
                 {team.teamLeaderContact || "N/A"}

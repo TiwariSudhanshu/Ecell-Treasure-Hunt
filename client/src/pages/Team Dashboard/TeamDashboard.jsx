@@ -66,7 +66,7 @@ const TeamDashboard = () => {
         <button
           className="start-btn"
           onClick={() => {
-            navigate('/huntstart', {
+            navigate("/huntstart", {
               state: {
                 teamData: teamData, // Pass the team data
               },

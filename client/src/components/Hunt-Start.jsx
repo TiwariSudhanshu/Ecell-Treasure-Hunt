@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase'; // Ensure Firestore is configured
+import { FaMapMarkerAlt } from 'react-icons/fa'; // Import location icon
+// import Layout from '../pages/Layout/Layout';
 import Loader from './PuffLoader';
 import Layout from '../pages/Layout/Layout';
 import "./Hunt-Start.css";
@@ -71,8 +73,12 @@ function HuntStart() {
     <Layout>
       <div className='container'>
         <h1>Hunt has been started</h1>
-        <div>Your clue:</div>
-        <h2>{clue ? clue : "No clue available"}</h2>
+        <div className="clue-container">
+          <h2 className="clue-text">
+            <FaMapMarkerAlt className="icon" />
+            {clue ? clue : "No clue available"}
+          </h2>
+        </div>
         <h2>Go to your clue location to proceed</h2>
       </div>
     </Layout>

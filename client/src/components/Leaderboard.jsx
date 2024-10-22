@@ -15,28 +15,28 @@ const TreasureHunt = () => {
       try {
         const teamCollection = collection(db, "teams");
         const teamSnapshot = await getDocs(teamCollection);
-  
+
         const tempTeams = [];
-  
+
         // For each team, fetch leaderboard timestamp
         for (const doc of teamSnapshot.docs) {
           const team = doc.data();
           const teamId = team.teamId;
           const noOfLocation = team.noOfLocation; // Assuming 'noOfLocation' field exists in Firestore
-  
+
           // Fetch the latest timestamp from the leaderboard collection
           const leaderboardQuery = query(
             collection(db, "leaderboard"),
             where("teamId", "==", teamId)
           );
           const leaderboardSnapshot = await getDocs(leaderboardQuery);
-  
+
           let latestTimestamp = "";
           if (!leaderboardSnapshot.empty) {
             const leaderboardData = leaderboardSnapshot.docs[0].data();
             latestTimestamp = leaderboardData.timestamp.toDate().toString();
           }
-  
+
           // Add teams to a temporary array for leaderboard
           tempTeams.push({
             teamId,
@@ -45,25 +45,26 @@ const TreasureHunt = () => {
             noOfLocation: noOfLocation || 0, // Use noOfLocation fetched from Firestore
           });
         }
-  
+
         // Sort leaderboard by the latest location timestamp (oldest first)
         const sortedTeams = tempTeams.sort(
-          (a, b) => new Date(a.latestLocation) - new Date(b.latestLocation)
+          (a, b) => new Date(b.latestLocation) - new Date(a.latestLocation)
         );
         setTeams(sortedTeams);
       } catch (error) {
         console.error("Error fetching team or leaderboard data:", error);
       }
     };
-  
+
     fetchTeamData();
   }, []); // Run this once after component loads
-  
 
   return (
     <div className="pt-8 pr-8 pl-8 h-screen container">
       <div className="pt-8 pr-8 pl-8 h-screen bg-blue-950">
-        <h1 className="text-3xl font-bold mb-4 text-white">Treasure Hunt Event</h1>
+        <h1 className="text-3xl font-bold mb-4 text-white">
+          Treasure Hunt Event
+        </h1>
         <img src="https://www.ecellrgpv.com/assets/img/logo.png" alt="" />
         <div className="flex mb-4">
           <button
