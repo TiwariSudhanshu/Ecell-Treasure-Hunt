@@ -4,6 +4,43 @@ import { db } from "../../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Loader from "../../components/PuffLoader";
+import { fetchLocationVisitedByTeamId } from "../../utils/Helpers";
+const locationsData = {
+  locations: [
+    {
+      name: "Ground",
+      code: "XazwJCxusb",
+    },
+    {
+      name: "Library",
+      code: "IFohTLhaPm",
+    },
+    {
+      name: "Knowledge Resource Centre",
+      code: "wYCKeFSHxP",
+    },
+    {
+      name: "Union Bank",
+      code: "IJSYCNdjKZ",
+    },
+    {
+      name: "Parking Area",
+      code: "dIjQzfTyOz",
+    },
+    {
+      name: "Flag pole",
+      code: "JbWhuAIIld",
+    },
+    {
+      name: "Amul Outlet",
+      code: "anUoDLgRpP",
+    },
+    {
+      name: "Open air theatre",
+      code: "kZNvDgsqZT",
+    },
+  ],
+};
 
 export const AddTeamForm = () => {
   const [teamData, setTeamData] = useState({
@@ -15,34 +52,104 @@ export const AddTeamForm = () => {
     thirdMember: "",
     fourthMember: "",
     teamId: "",
-    route: "", 
-    noOfLocation: 0 // Initial state for noOfLocation
+    route: "",
+    noOfLocation: 0, // Initial state for noOfLocation
   });
 
   const [loading, setLoading] = useState(false);
   const [routes] = useState([
-    { id: "Route A", locations: ["anUoDLgRpP", "XazwJCxusb", "kZNvDgsqZT", "dIjQzfTyOz", "IJSYCNdjKZ", "wYCKeFSHxP"] },
-    { id: "Route B", locations: ["IFohTLhaPm", "JbWhuAIIld", "XazwJCxusb", "anUoDLgRpP", "kZNvDgsqZT", "wYCKeFSHxP"] },
-    { id: "Route C", locations: ["IJSYCNdjKZ", "dIjQzfTyOz", "anUoDLgRpP", "JbWhuAIIld", "XazwJCxusb", "wYCKeFSHxP"] },
-    { id: "Route D", locations: ["kZNvDgsqZT", "XazwJCxusb", "IFohTLhaPm", "JbWhuAIIld", "anUoDLgRpP", "wYCKeFSHxP"] },
-    { id: "Route E", locations: ["dIjQzfTyOz", "IJSYCNdjKZ", "kZNvDgsqZT", "anUoDLgRpP", "IFohTLhaPm", "wYCKeFSHxP"] },
-    { id: "Route F", locations: ["XazwJCxusb", "IFohTLhaPm", "IJSYCNdjKZ", "dIjQzfTyOz", "JbWhuAIIld", "wYCKeFSHxP"] },
-    { id: "Route G", locations: ["JbWhuAIIld", "dIjQzfTyOz", "anUoDLgRpP", "IJSYCNdjKZ", "kZNvDgsqZT", "wYCKeFSHxP"] }
+    {
+      id: "Route A",
+      locations: [
+        "anUoDLgRpP",
+        "XazwJCxusb",
+        "kZNvDgsqZT",
+        "dIjQzfTyOz",
+        "IJSYCNdjKZ",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route B",
+      locations: [
+        "IFohTLhaPm",
+        "JbWhuAIIld",
+        "XazwJCxusb",
+        "anUoDLgRpP",
+        "kZNvDgsqZT",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route C",
+      locations: [
+        "IJSYCNdjKZ",
+        "dIjQzfTyOz",
+        "anUoDLgRpP",
+        "JbWhuAIIld",
+        "XazwJCxusb",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route D",
+      locations: [
+        "kZNvDgsqZT",
+        "XazwJCxusb",
+        "IFohTLhaPm",
+        "JbWhuAIIld",
+        "anUoDLgRpP",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route E",
+      locations: [
+        "dIjQzfTyOz",
+        "IJSYCNdjKZ",
+        "kZNvDgsqZT",
+        "anUoDLgRpP",
+        "IFohTLhaPm",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route F",
+      locations: [
+        "XazwJCxusb",
+        "IFohTLhaPm",
+        "IJSYCNdjKZ",
+        "dIjQzfTyOz",
+        "JbWhuAIIld",
+        "wYCKeFSHxP",
+      ],
+    },
+    {
+      id: "Route G",
+      locations: [
+        "JbWhuAIIld",
+        "dIjQzfTyOz",
+        "anUoDLgRpP",
+        "IJSYCNdjKZ",
+        "kZNvDgsqZT",
+        "wYCKeFSHxP",
+      ],
+    },
   ]);
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Check if the 'route' field is being updated
-    if (name === 'route') {
+    if (name === "route") {
       // Find the selected route
-      const selectedRoute = routes.find(route => route.id === value);
+      const selectedRoute = routes.find((route) => route.id === value);
       const noOfLocation = selectedRoute ? selectedRoute.locations.length : 0;
 
       setTeamData({
         ...teamData,
         [name]: value,
-        noOfLocation: noOfLocation // Update noOfLocation based on the selected route
+        noOfLocation: noOfLocation, // Update noOfLocation based on the selected route
       });
     } else {
       setTeamData({
@@ -57,7 +164,7 @@ export const AddTeamForm = () => {
     setLoading(true);
     try {
       // Find the selected route to get its locations
-      const selectedRoute = routes.find(route => route.id === teamData.route);
+      const selectedRoute = routes.find((route) => route.id === teamData.route);
       const locations = selectedRoute ? selectedRoute.locations : []; // Get the locations
       const nextLocationId = locations.length > 0 ? locations[0] : null; // Get the first location ID
 
@@ -73,7 +180,7 @@ export const AddTeamForm = () => {
         route: teamData.route, // Save selected route ID
         locations: locations, // Save locations based on the selected route
         nextLocationId: nextLocationId,
-        noOfLocation: teamData.noOfLocation // Save noOfLocation value
+        noOfLocation: teamData.noOfLocation, // Save noOfLocation value
       });
       console.log("Document written with ID: ", docRef.id);
       toast.success("Successfully Registered");
@@ -89,7 +196,7 @@ export const AddTeamForm = () => {
         fourthMember: "",
         teamId: "",
         route: "", // Reset route selection
-        noOfLocation: 0
+        noOfLocation: 0,
       });
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -104,7 +211,7 @@ export const AddTeamForm = () => {
       onSubmit={handleSubmit}
       className="flex flex-col gap-4 w-[300px] md:w-[800px] mx-auto p-4"
     >
-           <label htmlFor="teamName" className="font-bold">
+      <label htmlFor="teamName" className="font-bold">
         Team Name
       </label>
       <input
@@ -118,7 +225,7 @@ export const AddTeamForm = () => {
         className="input-class border p-2 rounded"
       />
 
-<label htmlFor="teamLeaderEmail" className="font-bold">
+      <label htmlFor="teamLeaderEmail" className="font-bold">
         Team Leader Email
       </label>
       <input
@@ -237,13 +344,21 @@ export const AddTeamForm = () => {
         type="submit"
         className="submit-button-class bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
       >
-        {loading ? <Loader loading={true} size={150} color="blue" 
-        imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" /> : "Submit"}
+        {loading ? (
+          <Loader
+            loading={true}
+            size={150}
+            color="blue"
+            imageSrc="https://www.ecellrgpv.com/assets/img/logo.png"
+            alt="Test"
+          />
+        ) : (
+          "Submit"
+        )}
       </button>
     </form>
   );
 };
-
 
 export const AddLocationForm = () => {
   const [locationData, setLocationData] = useState({
@@ -430,8 +545,15 @@ export const Locations = () => {
   }, []);
 
   if (loading) {
-    return <Loader loading={true} size={150} color="blue" 
-    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />;
+    return (
+      <Loader
+        loading={true}
+        size={150}
+        color="blue"
+        imageSrc="https://www.ecellrgpv.com/assets/img/logo.png"
+        alt="Test"
+      />
+    );
   }
 
   return (
@@ -494,8 +616,15 @@ export const TeamMembers = () => {
   }, []);
 
   if (loading) {
-    return <Loader loading={true} size={150} color="blue" 
-    imageSrc="https://www.ecellrgpv.com/assets/img/logo.png" alt="Test" />;
+    return (
+      <Loader
+        loading={true}
+        size={150}
+        color="blue"
+        imageSrc="https://www.ecellrgpv.com/assets/img/logo.png"
+        alt="Test"
+      />
+    );
   }
 
   return (
@@ -534,6 +663,65 @@ export const TeamMembers = () => {
           ))}
         </tbody>
       </table>
+    </div>
+  );
+};
+
+export const TeamLocationForm = () => {
+  const [teamId, setTeamId] = useState("");
+  const [noOfLocation, setNoOfLocation] = useState(null);
+  const [route, setRoute] = useState("");
+  const [nextLocation, setNextLocation] = useState("");
+  const [nextLocationName, setNextLocationName] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const { noOfLocation, nextLocationId, route } =
+        await fetchLocationVisitedByTeamId(teamId);
+      setNoOfLocation(noOfLocation);
+      setRoute(route);
+      setNextLocation(nextLocationId);
+
+      // Find the name of the next location
+      const location = locationsData.locations.find(
+        (loc) => loc.code === nextLocationId
+      );
+      setNextLocationName(location ? location.name : "Unknown location");
+    } catch (error) {
+      setError("Error fetching location data. Please try again.");
+    }
+  };
+
+  return (
+    <div className="team-location-form">
+      <h2>Check Locations Visited by Team</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="teamId">Team ID:</label>
+        <input
+          type="text"
+          id="teamId"
+          value={teamId}
+          onChange={(e) => setTeamId(e.target.value)}
+          placeholder="Enter Team ID"
+          required
+        />
+        <button type="submit">Fetch Locations</button>
+      </form>
+      {error && <p className="error">{error}</p>}
+      {noOfLocation !== null && (
+        <div className="result">
+          <h3>Results</h3>
+          <p>Team ID: {teamId}</p>
+          <p>Total Locations Visited: {noOfLocation}</p>
+          <p>Team Route: {route}</p>
+          <p>Next Location ID: {nextLocation}</p>
+          <p>Next Location Name: {nextLocationName}</p>{" "}
+          {/* Display Next Location Name */}
+        </div>
+      )}
     </div>
   );
 };

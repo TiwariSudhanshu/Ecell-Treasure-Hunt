@@ -5,6 +5,7 @@ import {
   AddLocationForm,
   AddTeamForm,
   Locations,
+  TeamLocationForm,
   TeamMembers,
 } from "./Adminsections";
 import Leaderboard from "../../components/Leaderboard";
@@ -95,6 +96,14 @@ const AdminSection = () => {
           >
             Teams
           </span>
+          <span
+            onClick={() => setSec("locvisited")}
+            className={`p-4 cursor-pointer hover:bg-gray-700 ${
+              sec === "locvisited" ? "bg-gray-700" : ""
+            }`}
+          >
+            Find team by Id
+          </span>
         </nav>
       </aside>
 
@@ -116,6 +125,7 @@ const AdminSection = () => {
           {sec === "Live-Leaderboard" && <Leaderboard />}
           {sec === "Locations" && <Locations />}
           {sec === "Teams" && <TeamMembers />}
+          {sec === "locvisited" && <TeamLocationForm />}
         </div>
       </div>
     </section>

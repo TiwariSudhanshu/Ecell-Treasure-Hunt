@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase"; // Ensure you have Firebase initialized
 import "./leaderboard.css"; // Import your CSS file for styling
 
@@ -8,6 +8,17 @@ const TreasureHunt = () => {
   const [selectedTeam, setSelectedTeam] = useState("");
   const [teams, setTeams] = useState([]);
   const [teamDetails, setTeamDetails] = useState({});
+
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    hours = hours < 10 ? `0${hours}` : hours;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
+    seconds = seconds < 10 ? `0${seconds}` : seconds;
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   // Fetch team data and leaderboard from Firestore
   useEffect(() => {
@@ -48,7 +59,7 @@ const TreasureHunt = () => {
 
         // Sort leaderboard by the latest location timestamp (oldest first)
         const sortedTeams = tempTeams.sort(
-          (a, b) => new Date(b.latestLocation) - new Date(a.latestLocation)
+          (a, b) => new Date(a.latestLocation) - new Date(b.latestLocation)
         );
         setTeams(sortedTeams);
       } catch (error) {
@@ -113,7 +124,8 @@ const TreasureHunt = () => {
                       {team.teamName}
                     </td>
                     <td className="py-2 px-4 border-b border-blue-400 text-left">
-                      {team.latestLocation}
+                      {/* {team.latestLocation} */}
+                      {formatTime(team.latestLocation)}
                     </td>
                     <td className="py-2 px-4 border-b border-blue-400 text-left">
                       {team.noOfLocation}

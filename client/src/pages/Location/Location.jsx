@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";  
+import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
-import { collection, getDocs, query, where, doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import Layout from "../Layout/Layout";
 import Loader from "../../components/PuffLoader";
 import { LuPartyPopper } from "react-icons/lu";
 import { GiPartyPopper } from "react-icons/gi";
-import "./location.css"
+import "./location.css";
 // import EcellLogo from "../../public/images/logo.png"
-import EcellLogo from "../../../public/images/logo.png"
-
+import EcellLogo from "../../../public/images/logo.png";
 
 const LocationPage = () => {
-  const { locationId } = useParams(); 
-  const navigate = useNavigate(); 
+  const { locationId } = useParams();
+  const navigate = useNavigate();
   const [locationData, setLocationData] = useState(null);
-  const [nextClue, setNextClue] = useState(""); 
+  const [nextClue, setNextClue] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [teamData, setTeamData] = useState(null); 
+  const [teamData, setTeamData] = useState(null);
 
   // Fetch team ID from local storage
   const storedTeamData = localStorage.getItem("team");
@@ -29,7 +35,10 @@ const LocationPage = () => {
     const fetchLocationData = async () => {
       try {
         const locationCollection = collection(db, "locations");
-        const locationQuery = query(locationCollection, where("locationId", "==", locationId));
+        const locationQuery = query(
+          locationCollection,
+          where("locationId", "==", locationId)
+        );
         const locationSnapshot = await getDocs(locationQuery);
 
         if (locationSnapshot.empty) {
@@ -45,7 +54,6 @@ const LocationPage = () => {
 
         setLocationData(locationArray[0]);
         await fetchTeamData(); // Fetch team data after getting location data
-
       } catch (err) {
         setError("Failed to fetch location data.");
       } finally {
@@ -67,13 +75,13 @@ const LocationPage = () => {
 
           const team = teamArray[0];
           setTeamData(team);
-          
+
           // Check if the locationId matches the nextLocationId
           if (locationId.toLowerCase() !== team.nextLocationId.toLowerCase()) {
             navigate("/invalidlocation"); // Navigate to /invalidlocation
             return;
           }
-          
+
           updateNextLocation(team); // Update the next location
         } else {
           setError("No team found with this ID");
@@ -84,12 +92,12 @@ const LocationPage = () => {
     };
 
     const updateNextLocation = async (team) => {
-      const { nextLocationId, locations } = team; 
+      const { nextLocationId, locations } = team;
       const currentIndex = locations.indexOf(nextLocationId);
 
       if (currentIndex !== -1 && currentIndex < locations.length - 1) {
         const newNextLocationId = locations[currentIndex + 1]; // New next location ID
-        
+
         await fetchNextLocationClue(newNextLocationId);
 
         // Update nextLocationId in Firestore
@@ -97,14 +105,17 @@ const LocationPage = () => {
         await updateDoc(teamDocRef, { nextLocationId: newNextLocationId }); // Update the document
       } else {
         setNextClue("No more locations available.");
-        navigate("/huntfinish",{ state: { locationId } });
+        navigate("/huntfinish", { state: { locationId } });
       }
     };
 
     const fetchNextLocationClue = async (nextLocationId) => {
       try {
         const locationCollection = collection(db, "locations");
-        const nextLocationQuery = query(locationCollection, where("locationId", "==", nextLocationId));
+        const nextLocationQuery = query(
+          locationCollection,
+          where("locationId", "==", nextLocationId)
+        );
         const nextLocationSnapshot = await getDocs(nextLocationQuery);
 
         if (!nextLocationSnapshot.empty) {
@@ -114,9 +125,13 @@ const LocationPage = () => {
           });
 
           // Get a random hint from the location data
-          const hints = [nextLocationArray[0].hint1, nextLocationArray[0].hint2, nextLocationArray[0].hint3];
+          const hints = [
+            nextLocationArray[0].hint1,
+            nextLocationArray[0].hint2,
+            nextLocationArray[0].hint3,
+          ];
           const randomClue = hints[Math.floor(Math.random() * hints.length)];
-          setNextClue(randomClue); 
+          setNextClue(randomClue);
         } else {
           setNextClue("No clue available for the next location.");
         }
@@ -128,21 +143,29 @@ const LocationPage = () => {
     fetchLocationData();
   }, [locationId, navigate, teamId]);
 
-  if (loading) return( 
-    <><div className="flex flex-col h-screen justify-center items-center">
-  <Loader loading={true} size={150} color="blue" 
-  imageSrc={EcellLogo} alt="Test" />
-  </div></>
-  );
+  if (loading)
+    return (
+      <>
+        <div className="flex flex-col h-screen justify-center items-center">
+          <Loader
+            loading={true}
+            size={150}
+            color="blue"
+            imageSrc={EcellLogo}
+            alt="Test"
+          />
+        </div>
+      </>
+    );
   if (error) return <p>{error}</p>;
 
   return (
     <Layout>
-      <div className="location-container">
+      <div className="location-container mx-2 p-3">
         <GiPartyPopper className="party-icon" />
         <h2>Congratulations! You are at the right location</h2>
         <h2>Next Location Clue</h2>
-        <p>{nextClue}</p>
+        <p className="text-[#ffec1f] text-3xl">"{nextClue}"</p>
       </div>
     </Layout>
   );
